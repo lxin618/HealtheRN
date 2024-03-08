@@ -38,29 +38,12 @@ const SplashScreen = ({ navigation}: any) => {
           Health
         </Animated.Text>
         <Animated.Text
-          entering={BounceInUp.delay(3000).duration(2000).springify()}
+          entering={BounceInUp.delay(2500).duration(2000).springify()}
           style={[style.text, style.textE]}>
           E
         </Animated.Text>
       </View>
-      <Animated.View
-        entering={FadeInDown.delay(4000).duration(500).springify()}
-        style={style.signupBtn}>
-        <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
-          <Animated.Text className="text-xl font-medium text-white text-center">
-            Create an account
-          </Animated.Text>
-        </TouchableOpacity>
-      </Animated.View>
-      <Animated.View
-        entering={FadeInDown.delay(4000).duration(500).springify()}
-        style={style.signinBtn}>
-        <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
-          <Animated.Text className="text-xl font-medium text-[#0076FF] text-center">
-            Sign in
-          </Animated.Text>
-        </TouchableOpacity>
-      </Animated.View>
+      
     </SafeAreaView>
   );
 };

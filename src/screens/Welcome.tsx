@@ -6,6 +6,7 @@ import {
     Image,
     Text
   } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
   
   const SplashScreen = ({ navigation}: any) => {
     return (
@@ -25,22 +26,24 @@ import {
             E
           </Text>
         </View>
-        <View
-          style={style.signupBtn}>
-          <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
-            <Text className="text-xl font-medium text-white text-center">
-              Create an account
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={style.signinBtn}>
-          <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
-            <Text className="text-xl font-medium text-[#0076FF] text-center">
-              Sign in
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <Animated.View
+            entering={FadeInDown.delay(30).duration(50).springify()}
+            style={style.signupBtn}>
+            <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
+            <Animated.Text className="text-xl font-medium text-white text-center">
+                Create an account
+            </Animated.Text>
+            </TouchableOpacity>
+        </Animated.View>
+        <Animated.View
+            entering={FadeInDown.delay(30).duration(50).springify()}
+            style={style.signinBtn}>
+            <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
+            <Animated.Text className="text-xl font-medium text-[#0076FF] text-center">
+                Sign in
+            </Animated.Text>
+            </TouchableOpacity>
+        </Animated.View>
       </SafeAreaView>
     );
   };

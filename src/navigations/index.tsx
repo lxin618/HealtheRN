@@ -12,14 +12,25 @@ import Splash from '../screens/Splash'
 const Stack = createNativeStackNavigator();
 
 export const AppNavigation = () => {
+
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Simulate loading process
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 5000); // Adjust the time as needed
+  }, []);
+
   return (
     <NavigationContainer>
+      {isLoading ? <Splash/> :
         <Stack.Navigator
-          initialRouteName="Splash">
-          <Stack.Screen name="Splash" options={{ headerShown: false }} component={Splash} />
+          initialRouteName="Welcome">
           <Stack.Screen name="Disclaimer" options={{ headerShown: false }} component={Disclaimer} />
           <Stack.Screen name="Welcome" options={{ headerShown: false }} component={Welcome} />
         </Stack.Navigator>
+      }
     </NavigationContainer>
   );
 };

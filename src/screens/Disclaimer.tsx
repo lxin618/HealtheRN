@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import BaseText from '../components/BaseText';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Header from '../components/Header'
 
 const Disclaimer = ({navigation}: any) => {
   return (
@@ -19,21 +20,7 @@ const Disclaimer = ({navigation}: any) => {
         size={32}
       />
       <ScrollView className="container mx-auto px-4 pt-12 pl-6">
-        <View className="flex flex-row">
-          <BaseText className="text-4xl font-bold text-[#070651]">
-            Disclaimer
-          </BaseText>
-          <Image
-            style={{
-              position: 'absolute',
-              bottom: 20,
-              right: 0,
-              height: 60,
-              resizeMode: 'contain',
-            }}
-            source={require('../../assets/images/logo.png')}
-          />
-        </View>
+        <Header heading={'Disclaimer'}/>
         <BaseText className="leading-6 pt-6 text-md text-[#515185]">
           This self-assessment tool is designed to provide general information
           and guidance based on the symptoms you input.{'\n'}
