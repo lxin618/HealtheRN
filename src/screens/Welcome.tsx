@@ -28,7 +28,7 @@ import {
         <View
           style={style.signupBtn}>
           <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
-            <Text className="text-xl font-bold text-white text-center">
+            <Text className="text-xl font-medium text-white text-center">
               Create an account
             </Text>
           </TouchableOpacity>
@@ -36,7 +36,7 @@ import {
         <View
           style={style.signinBtn}>
           <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
-            <Text className="text-xl font-bold text-[#0076FF] text-center">
+            <Text className="text-xl font-medium text-[#0076FF] text-center">
               Sign in
             </Text>
           </TouchableOpacity>

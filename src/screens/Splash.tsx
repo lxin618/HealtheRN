@@ -47,7 +47,7 @@ const SplashScreen = ({ navigation}: any) => {
         entering={FadeInDown.delay(4000).duration(500).springify()}
         style={style.signupBtn}>
         <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
-          <Animated.Text className="text-xl font-bold text-white text-center">
+          <Animated.Text className="text-xl font-medium text-white text-center">
             Create an account
           </Animated.Text>
         </TouchableOpacity>
@@ -56,7 +56,7 @@ const SplashScreen = ({ navigation}: any) => {
         entering={FadeInDown.delay(4000).duration(500).springify()}
         style={style.signinBtn}>
         <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
-          <Animated.Text className="text-xl font-bold text-[#0076FF] text-center">
+          <Animated.Text className="text-xl font-medium text-[#0076FF] text-center">
             Sign in
           </Animated.Text>
         </TouchableOpacity>
