@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import BaseText from '../components/BaseText';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Header from '../components/Header'
+import Header from '../components/Header';
 
-const Disclaimer = ({navigation}: any) => {
+export const Disclaimer = ({navigation}: any) => {
   return (
-    <SafeAreaView className='h-full'>
+    <SafeAreaView className="h-full">
       <Icon
         name="chevron-back-outline"
         onPress={() => navigation.push('Welcome')}
@@ -20,7 +20,7 @@ const Disclaimer = ({navigation}: any) => {
         size={32}
       />
       <ScrollView className="container mx-auto px-4 pt-12 pl-6">
-        <Header heading={'Disclaimer'}/>
+        <Header heading={'Disclaimer'} />
         <BaseText className="leading-6 pt-6 text-md text-[#515185]">
           This self-assessment tool is designed to provide general information
           and guidance based on the symptoms you input.{'\n'}
@@ -35,9 +35,8 @@ const Disclaimer = ({navigation}: any) => {
           attention. By using this app, you acknowledge and agree to these
           terms.{'\n'}
         </BaseText>
-        <View
-          style={style.btn}>
-          <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
+        <View style={style.btn}>
+          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
             <BaseText className="text-xl font-medium text-white text-center">
               Get started
             </BaseText>
@@ -49,16 +48,14 @@ const Disclaimer = ({navigation}: any) => {
 };
 
 const style = StyleSheet.create({
-    btn: {
-        bottom: 0,
-        top: 15,
-        backgroundColor: '#0076FF',
-        borderRadius: 100,
-        paddingTop: 13,
-        paddingBottom: 15,
-        textAlign: 'center',
-        width: '100%',
-      },
-  });
-
-export default Disclaimer;
+  btn: {
+    bottom: 0,
+    top: 15,
+    backgroundColor: '#0076FF',
+    borderRadius: 100,
+    paddingTop: 13,
+    paddingBottom: 15,
+    textAlign: 'center',
+    width: '100%',
+  },
+});

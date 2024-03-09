@@ -1,16 +1,11 @@
-import {
-  SafeAreaView,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {SafeAreaView, View, StyleSheet, TouchableOpacity} from 'react-native';
 import Animated, {
   BounceInUp,
   FadeInLeft,
   FadeInDown,
 } from 'react-native-reanimated';
 
-const SplashScreen = ({ navigation}: any) => {
+export const Splash = ({navigation}: any) => {
   return (
     <SafeAreaView style={style.container}>
       <View style={style.imageContainer}>
@@ -43,7 +38,6 @@ const SplashScreen = ({ navigation}: any) => {
           E
         </Animated.Text>
       </View>
-      
     </SafeAreaView>
   );
 };
@@ -94,5 +88,3 @@ const style = StyleSheet.create({
     width: '90%',
   },
 });
-
-export default SplashScreen;
