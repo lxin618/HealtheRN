@@ -9,13 +9,14 @@ import {
 import BaseText from '../components/BaseText';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
+import Button from '../components/Button';
 
 export const Disclaimer = ({navigation}: any) => {
   return (
     <SafeAreaView className="h-full">
       <Icon
         name="chevron-back-outline"
-        onPress={() => navigation.push('Welcome')}
+        onPress={() => navigation.navigate('Welcome')}
         style={{top: 20, padding: 15}}
         size={32}
       />
@@ -35,13 +36,7 @@ export const Disclaimer = ({navigation}: any) => {
           attention. By using this app, you acknowledge and agree to these
           terms.{'\n'}
         </BaseText>
-        <View style={style.btn}>
-          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-            <BaseText className="text-xl font-medium text-white text-center">
-              Get started
-            </BaseText>
-          </TouchableOpacity>
-        </View>
+        <Button buttonText='Get started' navigateTo='SignupPhone' />
       </ScrollView>
     </SafeAreaView>
   );
