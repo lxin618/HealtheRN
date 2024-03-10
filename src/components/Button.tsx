@@ -1,24 +1,38 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+  View,
+} from 'react-native';
 import BaseText from './BaseText';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Animated, {FadeIn} from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/Fontisto';
 
 interface Props {
   buttonText: string;
   navigateTo: string;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<ViewStyle>;
+  iconStyle?: StyleProp<ViewStyle>;
+  icon?: string;
 }
 
 const Button = (props: Props) => {
-  const {buttonText, navigateTo} = props;
+  const {buttonText, navigateTo, style, textStyle, icon, iconStyle} = props;
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (
     <Animated.View
       entering={FadeIn.delay(50).duration(50).springify()}
-      style={style.btn}>
+      style={[styles.btn, style]}>
       <TouchableOpacity onPress={() => navigation.navigate(navigateTo)}>
-        <BaseText className="text-xl font-medium text-white text-center">
+        {icon && <Icon style={iconStyle} name={icon} size={25} />}
+        <BaseText
+          style={textStyle}
+          className="text-xl font-medium text-white text-center">
           {buttonText}
         </BaseText>
       </TouchableOpacity>
@@ -26,7 +40,7 @@ const Button = (props: Props) => {
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   btn: {
     bottom: 0,
     top: 15,
