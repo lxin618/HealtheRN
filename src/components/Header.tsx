@@ -20,7 +20,7 @@ const Header = (props: Props) => {
         source={require('../../assets/images/logo.png')}
       />
       <BaseText
-        style={{width: 200}}
+        style={{width: 210}}
         className="text-4xl font-bold text-[#070651]">
         {heading}
       </BaseText>

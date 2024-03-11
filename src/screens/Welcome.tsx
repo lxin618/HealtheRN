@@ -22,7 +22,7 @@ export const Welcome = ({navigation}: any) => {
         entering={FadeInDown.delay(30).duration(50).springify()}
         style={style.signupBtn}>
         <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
-          <Animated.Text className="text-xl font-medium text-white text-center">
+          <Animated.Text style={{fontFamily: 'Poppins-Regular'}} className="text-lg font-medium text-white text-center">
             Create an account
           </Animated.Text>
         </TouchableOpacity>
@@ -31,7 +31,7 @@ export const Welcome = ({navigation}: any) => {
         entering={FadeInDown.delay(30).duration(50).springify()}
         style={style.signinBtn}>
         <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
-          <Animated.Text className="text-xl font-medium text-[#0076FF] text-center">
+          <Animated.Text style={{fontFamily: 'Poppins-Regular'}} className="text-lg font-medium text-[#0076FF] text-center">
             Sign in
           </Animated.Text>
         </TouchableOpacity>

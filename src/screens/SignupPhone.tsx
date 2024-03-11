@@ -23,7 +23,7 @@ export const SignupPhone = ({navigation}: any) => {
       />
       <ScrollView className="container mx-auto px-4 pt-12 pl-6">
         <Header heading={'Create an account'} />
-        <View className="pt-10 pb-8">
+        <View className="pt-10 pb-4">
           <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText>
           <TextInput
             // value={''}
@@ -36,6 +36,11 @@ export const SignupPhone = ({navigation}: any) => {
         </View>
         <Button buttonText="Continue" navigateTo="SignupDetails" />
         <Button icon={'email'} iconStyle={style.icon} style={style.emailBtn} textStyle={style.textStyle as StyleProp<ViewStyle>} buttonText="Continue with email" navigateTo="SignupEmail" />
+        <View className='pt-10 justify-center items-center'>
+          <BaseText className='text-[#171B4B] text-lg'>
+            Or sign up with 
+          </BaseText>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -61,6 +66,7 @@ const style = StyleSheet.create({
   icon: {
     position:'absolute',
     left: 85,
-    top: 1
+    top: 1,
+    color: '#070651'
   }
 });

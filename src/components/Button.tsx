@@ -32,7 +32,7 @@ const Button = (props: Props) => {
         {icon && <Icon style={iconStyle} name={icon} size={25} />}
         <BaseText
           style={textStyle}
-          className="text-xl font-medium text-white text-center">
+          className="text-lg font-medium text-white text-center">
           {buttonText}
         </BaseText>
       </TouchableOpacity>
