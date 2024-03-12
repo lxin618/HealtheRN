@@ -36,7 +36,7 @@ export const Disclaimer = ({navigation}: any) => {
           attention. By using this app, you acknowledge and agree to these
           terms.{'\n'}
         </BaseText>
-        <Button buttonText='Get started' navigateTo='SignupPhone' />
+        <Button buttonText='Get started' onPress={() => navigation.navigate('SignupPhone')} />
       </ScrollView>
     </SafeAreaView>
   );

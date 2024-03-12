@@ -13,22 +13,22 @@ import Icon from 'react-native-vector-icons/Fontisto';
 
 interface Props {
   buttonText: string;
-  navigateTo: string;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<ViewStyle>;
   iconStyle?: StyleProp<ViewStyle>;
   icon?: string;
+  onPress: () => void
 }
 
 const Button = (props: Props) => {
-  const {buttonText, navigateTo, style, textStyle, icon, iconStyle} = props;
+  const {buttonText, style, textStyle, icon, iconStyle, onPress} = props;
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (
     <Animated.View
       entering={FadeIn.delay(50).duration(50).springify()}
       style={[styles.btn, style]}>
-      <TouchableOpacity onPress={() => navigation.navigate(navigateTo)}>
+      <TouchableOpacity onPress={onPress}>
         {icon && <Icon style={iconStyle} name={icon} size={25} />}
         <BaseText
           style={textStyle}

@@ -13,8 +13,22 @@ import Header from '../components/Header';
 import BaseText from '../components/BaseText';
 import Button from '../components/Button';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { useRef, useState } from 'react';
+import PhoneInput from "react-native-phone-number-input";
 
 export const SignupPhone = ({navigation}: any) => {
+
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [numberValid, setNumberValid] = useState(false);
+  const phoneInput = useRef<PhoneInput>(null);
+
+  const onPressPhoneContinue = () => {
+    const checkValid = phoneInput.current?.isValidNumber(phoneNumber);
+    console.log(phoneNumber, checkValid)
+    
+    // navigation.navigate('SignupDetails')
+  }
+ 
   return (
     <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
       <Icon
@@ -27,17 +41,23 @@ export const SignupPhone = ({navigation}: any) => {
         <Header heading={'Create an account'} />
         <View className="pt-10 pb-4">
           <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText>
-          <TextInput
-            // value={''}
-            keyboardType="numeric"
-            style={style.textInput}
-            onChangeText={() => {}}
-            placeholder="Enter you phone number"
-            placeholderTextColor={'#8B8DA5'}
+          <PhoneInput
+            ref={phoneInput}
+            defaultValue={phoneNumber}
+            containerStyle={style.textInput}
+            defaultCode="NZ"
+            layout="first"
+            onChangeFormattedText={(text) => {
+              setPhoneNumber(text);
+            }}
+            countryPickerProps={{
+              countryCodes: ['NZ', 'AU'],
+            }}
+            autoFocus
           />
         </View>
-        <Button buttonText="Continue" navigateTo="SignupDetails" />
-        <Button icon={'email'} iconStyle={style.icon} style={style.emailBtn} textStyle={style.textStyle as StyleProp<ViewStyle>} buttonText="Continue with email" navigateTo="SignupEmail" />
+        <Button buttonText="Continue" onPress={onPressPhoneContinue} />
+        <Button icon={'email'} iconStyle={style.icon} style={style.emailBtn} textStyle={style.textStyle as StyleProp<ViewStyle>} buttonText="Continue with email" onPress={() => navigation.navigate('SignupEmail')} />
         <View className='pt-12 justify-center items-center'>
           <BaseText className='text-[#171B4B] text-base'>
             Or sign up with 
@@ -67,7 +87,6 @@ export const SignupPhone = ({navigation}: any) => {
 const style = StyleSheet.create({
   textInput: {
     backgroundColor: '#F7F7F8',
-    padding: 20,
     borderRadius: 8,
     width: '100%',
   },
