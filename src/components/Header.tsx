@@ -21,7 +21,7 @@ const Header = (props: Props) => {
       />
       <BaseText
         style={{width: 210}}
-        className="text-4xl font-bold text-[#070651]">
+        className="text-3xl font-bold text-[#070651]">
         {heading}
       </BaseText>
     </View>
