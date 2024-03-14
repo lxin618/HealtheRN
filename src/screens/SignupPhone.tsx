@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleProp,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -12,23 +13,29 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
 import BaseText from '../components/BaseText';
 import Button from '../components/Button';
-import Animated, { FadeInDown } from 'react-native-reanimated';
-import { useRef, useState } from 'react';
-import PhoneInput from "react-native-phone-number-input";
+import Animated, {FadeInDown} from 'react-native-reanimated';
+import {useRef, useState} from 'react';
+import PhoneInput from 'react-native-phone-number-input';
 
 export const SignupPhone = ({navigation}: any) => {
-
-  const [phoneNumber, setPhoneNumber] = useState('')
-  const [numberValid, setNumberValid] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [numberValidError, setNumberValidError] = useState('');
   const phoneInput = useRef<PhoneInput>(null);
 
   const onPressPhoneContinue = () => {
-    const checkValid = phoneInput.current?.isValidNumber(phoneNumber);
-    console.log(phoneNumber, checkValid)
-    
-    // navigation.navigate('SignupDetails')
-  }
- 
+    navigation.navigate('Verify', {phone: phoneNumber})
+  };
+
+  const validateNumber = (number: string) => {
+    const checkValid = phoneInput.current?.isValidNumber(number);
+    if (!checkValid) {
+      setNumberValidError('Please provide a valid phone number');
+      return;
+    } else {
+      setNumberValidError('');
+    }
+    setPhoneNumber(number);
+  };
   return (
     <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
       <Icon
@@ -47,26 +54,43 @@ export const SignupPhone = ({navigation}: any) => {
             containerStyle={style.textInput}
             defaultCode="NZ"
             layout="first"
-            onChangeFormattedText={(text) => {
-              setPhoneNumber(text);
-            }}
+            onChangeFormattedText={number => validateNumber(number)}
+            disableArrowIcon
             countryPickerProps={{
-              countryCodes: ['NZ', 'AU'],
+              countryCodes: ['NZ'],
             }}
             autoFocus
           />
+          {numberValidError && (
+            <BaseText className="pt-2 pl-2 text-red-500">
+              {numberValidError}
+            </BaseText>
+          )}
         </View>
-        <Button buttonText="Continue" onPress={onPressPhoneContinue} />
-        <Button icon={'email'} iconStyle={style.icon} style={style.emailBtn} textStyle={style.textStyle as StyleProp<ViewStyle>} buttonText="Continue with email" onPress={() => navigation.navigate('SignupEmail')} />
-        <View className='pt-12 justify-center items-center'>
-          <BaseText className='text-[#171B4B] text-base'>
-            Or sign up with 
+        <Button
+          disabled={numberValidError || !phoneNumber ? true : false}
+          buttonText="Continue"
+          onPress={onPressPhoneContinue}
+        />
+        <Button
+          icon={'email'}
+          iconStyle={style.icon}
+          style={style.emailBtn}
+          textStyle={style.textStyle as StyleProp<ViewStyle>}
+          buttonText="Continue with email"
+          onPress={() => navigation.navigate('Verify')}
+        />
+        <View className="pt-12 justify-center items-center">
+          <BaseText className="text-[#171B4B] text-base">
+            Or sign up with
           </BaseText>
         </View>
-        <View className='pt-8 justify-center items-center'>
+        <View className="pt-8 justify-center items-center">
           <Icon
             name="logo-google"
-            onPress={() => {console.log('123')}}
+            onPress={() => {
+              console.log('123');
+            }}
             style={style.google}
             size={32}
           />
@@ -74,7 +98,9 @@ export const SignupPhone = ({navigation}: any) => {
         <Animated.View
           entering={FadeInDown.delay(50).duration(500).springify()}
           className="flex-row justify-center bottom-0 h-full top-10 mt-20">
-          <BaseText className="text-[#171B4B]">Already have an account? </BaseText>
+          <BaseText className="text-[#171B4B]">
+            Already have an account?{' '}
+          </BaseText>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <BaseText className="font-medium text-[#0076FF]">Sign in</BaseText>
           </TouchableOpacity>
@@ -98,13 +124,13 @@ const style = StyleSheet.create({
   },
   textStyle: {
     color: '#070651',
-    left: 15
+    left: 15,
   },
   icon: {
-    position:'absolute',
-    left: 85,
-    top: 1,
-    color: '#070651'
+    position: 'absolute',
+    left: 80,
+    top: 14,
+    color: '#070651',
   },
   google: {
     padding: 18,
@@ -112,8 +138,8 @@ const style = StyleSheet.create({
     borderRadius: 30,
     width: 60,
     height: 60,
-    fontSize:25,
+    fontSize: 25,
     overflow: 'hidden',
     color: '#0076FF',
-  }
+  },
 });

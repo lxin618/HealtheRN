@@ -6,8 +6,6 @@ import {
   View,
 } from 'react-native';
 import BaseText from './BaseText';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Animated, {FadeIn} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Fontisto';
 
@@ -17,26 +15,27 @@ interface Props {
   textStyle?: StyleProp<ViewStyle>;
   iconStyle?: StyleProp<ViewStyle>;
   icon?: string;
+  disabled?: boolean;
   onPress: () => void
 }
 
 const Button = (props: Props) => {
-  const {buttonText, style, textStyle, icon, iconStyle, onPress} = props;
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
+  const {buttonText, style, textStyle, icon, iconStyle, onPress, disabled} = props;
   return (
-    <Animated.View
-      entering={FadeIn.delay(50).duration(50).springify()}
-      style={[styles.btn, style]}>
-      <TouchableOpacity onPress={onPress}>
-        {icon && <Icon style={iconStyle} name={icon} size={25} />}
-        <BaseText
-          style={textStyle}
-          className="text-lg font-medium text-white text-center">
-          {buttonText}
-        </BaseText>
-      </TouchableOpacity>
-    </Animated.View>
+    <TouchableOpacity style={disabled ? {opacity:0.5} : {opacity:1}} disabled={disabled} onPress={onPress}>
+      <Animated.View
+        entering={FadeIn.delay(50).duration(50).springify()}
+        style={[styles.btn, style]}
+        >
+          {icon && <Icon style={iconStyle} name={icon} size={25} />}
+          <BaseText
+            style={textStyle}
+            className="text-lg font-medium text-white text-center">
+            {buttonText}
+          </BaseText>
+      </Animated.View>
+    </TouchableOpacity>
+
   );
 };
 
