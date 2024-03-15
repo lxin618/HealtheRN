@@ -16,14 +16,56 @@ import Button from '../components/Button';
 import Animated, {FadeInDown} from 'react-native-reanimated';
 import {useRef, useState} from 'react';
 import PhoneInput from 'react-native-phone-number-input';
+import {API_URL} from '../../env/env.json';
+import Toast from 'react-native-root-toast';
 
 export const SignupPhone = ({navigation}: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [numberValidError, setNumberValidError] = useState('');
   const phoneInput = useRef<PhoneInput>(null);
 
-  const onPressPhoneContinue = () => {
-    navigation.navigate('Verify', {phone: phoneNumber})
+  const onPressPhoneContinue = async () => {
+    if (!phoneNumber) {
+      setNumberValidError('Please re-type the phone number');
+      return;
+    }
+    const url = `${API_URL}/api/auth/sendOtp`;
+    // call the api to send otp
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          phone: phoneNumber
+        }),
+      });
+      const res = await response.json();
+      const statusCode = response.status;
+      if (statusCode != 200) {
+        Toast.show(`😕 ${res.response}`, {
+          duration: 5000,
+          position: Toast.positions.TOP,
+          shadow: true,
+          opacity: 1,
+          animation: true,
+          hideOnPress: true,
+          backgroundColor: 'red',
+        });
+      }
+      else {
+        navigation.navigate('Verify', {phone: res.otp})
+      }
+    } catch (error) {
+      Toast.show(`😕 Something has gone wrong`, {
+        duration: 5000,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        opacity: 1,
+        animation: true,
+        hideOnPress: true,
+        backgroundColor: 'red',
+      });
+    }
   };
 
   const validateNumber = (number: string) => {
@@ -97,7 +139,7 @@ export const SignupPhone = ({navigation}: any) => {
         </View>
         <Animated.View
           entering={FadeInDown.delay(50).duration(500).springify()}
-          className="flex-row justify-center bottom-0 h-full top-10 mt-20">
+          className="flex-row justify-center h-full mt-20 pb-50">
           <BaseText className="text-[#171B4B]">
             Already have an account?{' '}
           </BaseText>
@@ -105,6 +147,7 @@ export const SignupPhone = ({navigation}: any) => {
             <BaseText className="font-medium text-[#0076FF]">Sign in</BaseText>
           </TouchableOpacity>
         </Animated.View>
+        <View style={{height:100}} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -124,12 +167,12 @@ const style = StyleSheet.create({
   },
   textStyle: {
     color: '#070651',
-    left: 15,
+    left: '3%',
   },
   icon: {
     position: 'absolute',
-    left: 80,
-    top: 14,
+    left: '18%',
+    top: '60%',
     color: '#070651',
   },
   google: {

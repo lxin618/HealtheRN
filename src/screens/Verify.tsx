@@ -9,10 +9,14 @@ import Button from '../components/Button';
 export const Verify = ({navigation, route}: any) => {
   const number = route.params.phone;
 
-  useEffect(() => {
-    if (!number) {
+  const handleVerify = (text: string) => {
+    if (number != text) {
+      console.log('Invalid code');
     }
-  });
+    else {
+      console.log('Valid code');
+    }
+  }
 
   return (
     <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
@@ -31,8 +35,7 @@ export const Verify = ({navigation, route}: any) => {
           numberOfDigits={4}
           focusColor="green"
           focusStickBlinkingDuration={500}
-          onTextChange={text => console.log(text)}
-          onFilled={text => console.log(`OTP is ${text}`)}
+          onFilled={text => handleVerify(text)}
           theme={{
             containerStyle: {top: 30},
             pinCodeContainerStyle: {
