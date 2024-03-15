@@ -171,8 +171,8 @@ const style = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    left: '18%',
-    top: '60%',
+    right: '76%',
+    top: '55%',
     color: '#070651',
   },
   google: {

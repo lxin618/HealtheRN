@@ -27,7 +27,7 @@ const Button = (props: Props) => {
         entering={FadeIn.delay(50).duration(50).springify()}
         style={[styles.btn, style]}
         >
-          {icon && <Icon style={iconStyle} name={icon} size={20} />}
+          {icon && <Icon style={iconStyle} name={icon} size={23} />}
           <BaseText
             style={textStyle}
             className="text-lg font-medium text-white text-center">
