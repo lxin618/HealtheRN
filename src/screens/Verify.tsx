@@ -7,10 +7,11 @@ import BaseText from '../components/BaseText';
 import Button from '../components/Button';
 
 export const Verify = ({navigation, route}: any) => {
-  const number = route.params.phone;
+  const otp = route.params.otp;
+  const phone = route.params.phone;
 
   const handleVerify = (text: string) => {
-    if (number != text) {
+    if (otp != text) {
       console.log('Invalid code');
     }
     else {
@@ -29,7 +30,7 @@ export const Verify = ({navigation, route}: any) => {
       <ScrollView className="container mx-auto px-4 pt-12 pl-6">
         <Header icon={'phone'} heading={'Verify your phone number'} />
         <BaseText className="pt-8 text-base">
-          Please enter the 4 digit code sent to {number}
+          Please enter the 4 digit code sent to {phone}
         </BaseText>
         <OtpInput
           numberOfDigits={4}

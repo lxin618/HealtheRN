@@ -53,7 +53,7 @@ export const SignupPhone = ({navigation}: any) => {
         });
       }
       else {
-        navigation.navigate('Verify', {phone: res.otp})
+        navigation.navigate('Verify', {otp: res.otp, phone: phoneNumber})
       }
     } catch (error) {
       Toast.show(`😕 Something has gone wrong`, {
