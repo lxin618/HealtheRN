@@ -1,7 +1,6 @@
 import {SafeAreaView, ScrollView, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
-import {useEffect} from 'react';
 import {OtpInput} from 'react-native-otp-entry';
 import BaseText from '../components/BaseText';
 import Button from '../components/Button';
@@ -9,9 +8,13 @@ import Button from '../components/Button';
 export const Verify = ({navigation, route}: any) => {
   const otp = route.params.otp;
   const phone = route.params.phone;
+  const expiry = route.params.expiry;
 
   const handleVerify = (text: string) => {
-    if (otp != text) {
+    if (expiry < new Date().toISOString()) {
+      console.log('expired');
+    }
+    else if (otp != text) {
       console.log('Invalid code');
     }
     else {
@@ -34,6 +37,7 @@ export const Verify = ({navigation, route}: any) => {
         </BaseText>
         <OtpInput
           numberOfDigits={4}
+          autoFocus
           focusColor="green"
           focusStickBlinkingDuration={500}
           onFilled={text => handleVerify(text)}

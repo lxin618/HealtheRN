@@ -3,8 +3,6 @@ import {
   ScrollView,
   StyleProp,
   StyleSheet,
-  Text,
-  TextInput,
   TouchableOpacity,
   View,
   ViewStyle,
@@ -18,9 +16,11 @@ import {useRef, useState} from 'react';
 import PhoneInput from 'react-native-phone-number-input';
 import {API_URL} from '../../env/env.json';
 import Toast from 'react-native-root-toast';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export const SignupPhone = ({navigation}: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [loading, setLoading] = useState(false);
   const [numberValidError, setNumberValidError] = useState('');
   const phoneInput = useRef<PhoneInput>(null);
 
@@ -29,6 +29,7 @@ export const SignupPhone = ({navigation}: any) => {
       setNumberValidError('Please re-type the phone number');
       return;
     }
+    setLoading(true)
     const url = `${API_URL}/api/auth/sendOtp`;
     // call the api to send otp
     try {
@@ -45,27 +46,26 @@ export const SignupPhone = ({navigation}: any) => {
         Toast.show(`😕 ${res.response}`, {
           duration: 5000,
           position: Toast.positions.TOP,
-          shadow: true,
-          opacity: 1,
           animation: true,
           hideOnPress: true,
           backgroundColor: 'red',
         });
       }
       else {
-        navigation.navigate('Verify', {otp: res.otp, phone: phoneNumber})
+        console.log({otp: res.otp, expiry: res.expiry, phone: phoneNumber})
+        navigation.navigate('Verify', {otp: res.otp, expiry: res.expiry, phone: phoneNumber})
       }
     } catch (error) {
       Toast.show(`😕 Something has gone wrong`, {
         duration: 5000,
         position: Toast.positions.BOTTOM,
-        shadow: true,
         opacity: 1,
         animation: true,
         hideOnPress: true,
         backgroundColor: 'red',
       });
     }
+    setLoading(false)
   };
 
   const validateNumber = (number: string) => {
@@ -87,6 +87,10 @@ export const SignupPhone = ({navigation}: any) => {
         size={32}
       />
       <ScrollView className="container mx-auto px-4 pt-12 pl-6">
+        <Spinner
+          visible={loading}
+          overlayColor={'rgba(0, 0, 0, 0.40)'}
+        />
         <Header heading={'Create an account'} />
         <View className="pt-10 pb-4">
           <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText>
