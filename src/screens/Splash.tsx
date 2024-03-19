@@ -5,7 +5,7 @@ import Animated, {
   FadeInDown,
 } from 'react-native-reanimated';
 
-export const Splash = ({navigation}: any) => {
+export const Splash = () => {
   return (
     <SafeAreaView style={style.container}>
       <View style={style.imageContainer}>

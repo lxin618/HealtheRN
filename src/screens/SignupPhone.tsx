@@ -14,70 +14,39 @@ import Button from '../components/Button';
 import Animated, {FadeInDown} from 'react-native-reanimated';
 import {useRef, useState} from 'react';
 import PhoneInput from 'react-native-phone-number-input';
-import {API_URL} from '../../env/env.json';
-import Toast from 'react-native-root-toast';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {useVerfiyNumber} from '../hooks/useVerifyNumber';
 
-export const SignupPhone = ({navigation}: any) => {
+export const SignupPhone = ({navigation, route}: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [loading, setLoading] = useState(false);
   const [numberValidError, setNumberValidError] = useState('');
+  const [loading, setLoading] = useState(false);
   const phoneInput = useRef<PhoneInput>(null);
+  const {sendOTP, validateNumber} = useVerfiyNumber();
 
-  const onPressPhoneContinue = async () => {
-    if (!phoneNumber) {
-      setNumberValidError('Please re-type the phone number');
-      return;
-    }
-    setLoading(true)
-    const url = `${API_URL}/api/auth/sendOtp`;
-    // call the api to send otp
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          phone: phoneNumber
-        }),
-      });
-      const res = await response.json();
-      const statusCode = response.status;
-      if (statusCode != 200) {
-        Toast.show(`😕 ${res.response}`, {
-          duration: 5000,
-          position: Toast.positions.TOP,
-          animation: true,
-          hideOnPress: true,
-          backgroundColor: 'red',
-        });
-      }
-      else {
-        console.log({otp: res.otp, expiry: res.expiry, phone: phoneNumber})
-        navigation.navigate('Verify', {otp: res.otp, expiry: res.expiry, phone: phoneNumber})
-      }
-    } catch (error) {
-      Toast.show(`😕 Something has gone wrong`, {
-        duration: 5000,
-        position: Toast.positions.BOTTOM,
-        opacity: 1,
-        animation: true,
-        hideOnPress: true,
-        backgroundColor: 'red',
-      });
-    }
-    setLoading(false)
-  };
-
-  const validateNumber = (number: string) => {
-    const checkValid = phoneInput.current?.isValidNumber(number);
-    if (!checkValid) {
-      setNumberValidError('Please provide a valid phone number');
-      return;
-    } else {
+  const onChangeNumber = (number: string) => {
+    const isValid = validateNumber(number, phoneInput);
+    if (isValid) {
       setNumberValidError('');
+      setPhoneNumber(number);
+    } else {
+      setNumberValidError('Please provide a valid phone number');
     }
-    setPhoneNumber(number);
   };
+
+  const onSend = async () => {
+    setLoading(true);
+    const res = await sendOTP(phoneNumber);
+    if (res) {
+      navigation.navigate('Verify', {
+        otp: res.otp,
+        phone: phoneNumber,
+        expiry: res.expiry,
+      });
+    }
+    setLoading(false);
+  };
+
   return (
     <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
       <Icon
@@ -87,10 +56,7 @@ export const SignupPhone = ({navigation}: any) => {
         size={32}
       />
       <ScrollView className="container mx-auto px-4 pt-12 pl-6">
-        <Spinner
-          visible={loading}
-          overlayColor={'rgba(0, 0, 0, 0.40)'}
-        />
+        <Spinner visible={loading} overlayColor={'rgba(0, 0, 0, 0.40)'} />
         <Header heading={'Create an account'} />
         <View className="pt-10 pb-4">
           <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText>
@@ -100,7 +66,7 @@ export const SignupPhone = ({navigation}: any) => {
             containerStyle={style.textInput}
             defaultCode="NZ"
             layout="first"
-            onChangeFormattedText={number => validateNumber(number)}
+            onChangeFormattedText={number => onChangeNumber(number)}
             disableArrowIcon
             countryPickerProps={{
               countryCodes: ['NZ'],
@@ -116,7 +82,7 @@ export const SignupPhone = ({navigation}: any) => {
         <Button
           disabled={numberValidError || !phoneNumber ? true : false}
           buttonText="Continue"
-          onPress={onPressPhoneContinue}
+          onPress={onSend}
         />
         <Button
           icon={'email'}
@@ -151,7 +117,7 @@ export const SignupPhone = ({navigation}: any) => {
             <BaseText className="font-medium text-[#0076FF]">Sign in</BaseText>
           </TouchableOpacity>
         </Animated.View>
-        <View style={{height:100}} />
+        <View style={{height: 100}} />
       </ScrollView>
     </SafeAreaView>
   );

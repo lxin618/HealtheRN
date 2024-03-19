@@ -3,30 +3,67 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
 import {OtpInput} from 'react-native-otp-entry';
 import BaseText from '../components/BaseText';
-import Button from '../components/Button';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import {useVerfiyNumber} from '../hooks/useVerifyNumber';
 
 export const Verify = ({navigation, route}: any) => {
-  const otp = route.params.otp;
-  const phone = route.params.phone;
-  const expiry = route.params.expiry;
+  const {otp, phone, expiry} = route.params;
+  const [resendOTP, setRendOTP] = useState(false);
+  const [updatedOTP, setUpdatedOTP] = useState('');
+  const [updatedOTPExpiry, setUpdatedOTPExpiry] = useState('');
+  const [counter, setCounter] = useState(60);
+  const timer = useRef<ReturnType<typeof setInterval>>();
+  console.log('first time', otp);
 
-  const handleVerify = (text: string) => {
-    if (expiry < new Date().toISOString()) {
-      console.log('expired');
+  const {sendOTP, handleVerify} = useVerfiyNumber();
+
+  const ResendOtp = async () => {
+    startTimer();
+    setRendOTP(true);
+    const res = await sendOTP(phone);
+    if (res) {
+      setUpdatedOTP(res.otp);
+      setUpdatedOTPExpiry(res.expiry);
     }
-    else if (otp != text) {
-      console.log('Invalid code');
+    console.log('resend', res, updatedOTP, updatedOTPExpiry);
+  };
+
+  const updateCounter = useCallback(() => {
+    setCounter(prevCounter => prevCounter - 1);
+  }, []);
+
+  const startTimer = useCallback(() => {
+    timer.current = setInterval(updateCounter, 1000);
+  }, [updateCounter, 1000]);
+
+  const stopTimer = useCallback(() => {
+    timer.current && clearInterval(timer.current);
+  }, []);
+
+  useEffect(() => {
+    if (counter <= 0) {
+      stopTimer();
+      setRendOTP(false);
+      setCounter(60);
     }
-    else {
-      console.log('Valid code');
+  }, [counter, stopTimer]);
+
+  const onVerify = (text: string) => {
+    const res = handleVerify({
+      OTPTyped: text,
+      OTPReceived: updatedOTP ? updatedOTP : otp,
+      OTPExpiry: updatedOTPExpiry ? updatedOTPExpiry : expiry,
+    });
+
+    if (res) {
     }
-  }
+  };
 
   return (
     <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
       <Icon
         name="chevron-back-outline"
-        onPress={() => navigation.navigate('SignupPhone')}
+        onPress={() => navigation.navigate('SignupPhone', {counter})}
         style={{top: 20, padding: 15}}
         size={32}
       />
@@ -40,7 +77,7 @@ export const Verify = ({navigation, route}: any) => {
           autoFocus
           focusColor="green"
           focusStickBlinkingDuration={500}
-          onFilled={text => handleVerify(text)}
+          onFilled={text => onVerify(text)}
           theme={{
             containerStyle: {top: 30},
             pinCodeContainerStyle: {
@@ -52,16 +89,15 @@ export const Verify = ({navigation, route}: any) => {
           }}
         />
         <TouchableOpacity
-          style={false ? {opacity: 0.5} : {opacity: 1}}
-          disabled={false}
-          onPress={() => {}}>
+          style={resendOTP ? {opacity: 0.5} : {opacity: 1}}
+          disabled={resendOTP}
+          onPress={() => ResendOtp()}>
           <View className="pt-6 pb-4 justify-center items-center">
             <BaseText className="text-[#0076FF] text-base">
-              Resend code
+              {resendOTP ? `Resend code in ${counter}` : 'Resend code'}
             </BaseText>
           </View>
         </TouchableOpacity>
-        <Button buttonText="Verify" onPress={() => {}} />
       </ScrollView>
     </SafeAreaView>
   );
