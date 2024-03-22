@@ -1,6 +1,7 @@
 import {Image, View} from 'react-native';
 import BaseText from './BaseText';
 import phone from '../../assets/images/phone.png';
+import email from '../../assets/images/phone.png';
 import logo from '../../assets/images/logo.png';
 
 type Props = {
@@ -15,6 +16,8 @@ const Header = (props: Props) => {
     case 'phone':
       headerIcon = phone;
       break;
+    case 'email':
+      headerIcon = email;
     default:
       headerIcon = logo;
   }

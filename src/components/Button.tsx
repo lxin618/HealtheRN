@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import BaseText from './BaseText';
 import Animated, {FadeIn} from 'react-native-reanimated';
-import Icon from 'react-native-vector-icons/Fontisto';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface Props {
   buttonText: string;

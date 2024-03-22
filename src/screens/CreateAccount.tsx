@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleProp,
   StyleSheet,
+  TextInput,
   TouchableOpacity,
   View,
   ViewStyle,
@@ -17,9 +18,15 @@ import PhoneInput from 'react-native-phone-number-input';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {useVerfiyNumber} from '../hooks/useVerifyNumber';
 
-export const SignupPhone = ({navigation, route}: any) => {
+type OTOPType = 'phone' | 'email'
+
+export const CreateAccount = ({navigation}: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneValid, setPhoneValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
   const [numberValidError, setNumberValidError] = useState('');
+  const [screen, setScreen] = useState<'phone' | 'email'>('phone');
   const [loading, setLoading] = useState(false);
   const phoneInput = useRef<PhoneInput>(null);
   const {sendOTP, validateNumber} = useVerfiyNumber();
@@ -28,24 +35,55 @@ export const SignupPhone = ({navigation, route}: any) => {
     const isValid = validateNumber(number, phoneInput);
     if (isValid) {
       setNumberValidError('');
-      setPhoneNumber(number);
+      setPhoneValid(true)
     } else {
+      setPhoneValid(false)
       setNumberValidError('Please provide a valid phone number');
     }
+    setPhoneNumber(number);
   };
 
-  const onSend = async () => {
+  const onSend = async (type: OTOPType) => {
     setLoading(true);
-    const res = await sendOTP(phoneNumber);
+    let value
+    if (type == 'phone') {
+      value = phoneNumber
+    }
+    else {
+      value = email
+    }
+    const res = await sendOTP(value, type);
     if (res) {
       navigation.navigate('Verify', {
         otp: res.otp,
-        phone: phoneNumber,
+        value,
         expiry: res.expiry,
+        type
       });
     }
     setLoading(false);
   };
+
+  const onChangeEmail = (text: string) => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(text) === true) {
+      setEmailValid(true)
+      setNumberValidError('');
+    } else {
+      setEmailValid(false)
+      setNumberValidError('Please provide a valid email address');
+    }
+    setEmail(text)
+  }
+
+  const disabledButton = () => {
+    if (screen == 'phone') {
+      return numberValidError || !phoneValid
+    }
+    else {
+      return numberValidError || !emailValid
+    }
+  }
 
   return (
     <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
@@ -59,20 +97,34 @@ export const SignupPhone = ({navigation, route}: any) => {
         <Spinner visible={loading} overlayColor={'rgba(0, 0, 0, 0.40)'} />
         <Header heading={'Create an account'} />
         <View className="pt-10 pb-4">
-          <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText>
-          <PhoneInput
-            ref={phoneInput}
-            defaultValue={phoneNumber}
-            containerStyle={style.textInput}
-            defaultCode="NZ"
-            layout="first"
-            onChangeFormattedText={number => onChangeNumber(number)}
-            disableArrowIcon
-            countryPickerProps={{
-              countryCodes: ['NZ'],
-            }}
-            autoFocus
-          />
+          {screen == 'phone' && 
+            <>
+            <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText><PhoneInput
+              ref={phoneInput}
+              defaultValue={phoneNumber}
+              containerStyle={style.textInput}
+              defaultCode="NZ"
+              layout="first"
+              onChangeFormattedText={number => onChangeNumber(number)}
+              disableArrowIcon
+              countryPickerProps={{
+                countryCodes: ['NZ'],
+              }}
+              autoFocus />
+            </>
+          }
+          {screen == 'email' && 
+            <>
+            <BaseText className="pl-1 pb-2 text-[#171B4B]">Email</BaseText>
+            <TextInput
+              style={style.emailInput}
+              autoFocus
+              defaultValue={email}
+              placeholder='Enter your email'
+              onChangeText={text => onChangeEmail(text)}
+            />
+            </>
+          }
           {numberValidError && (
             <BaseText className="pt-2 pl-2 text-red-500">
               {numberValidError}
@@ -80,17 +132,17 @@ export const SignupPhone = ({navigation, route}: any) => {
           )}
         </View>
         <Button
-          disabled={numberValidError || !phoneNumber ? true : false}
+          disabled={disabledButton()}
           buttonText="Continue"
-          onPress={onSend}
+          onPress={() => onSend('phone')}
         />
         <Button
-          icon={'email'}
+          icon={screen == 'email' ? 'cellphone' : 'email-outline'}
           iconStyle={style.icon}
           style={style.emailBtn}
           textStyle={style.textStyle as StyleProp<ViewStyle>}
-          buttonText="Continue with email"
-          onPress={() => navigation.navigate('Verify')}
+          buttonText={screen == 'email' ? "Continue with phone" : 'Continue with email'}
+          onPress={() => {setScreen(screen == 'email' ? 'phone' : 'email'); setNumberValidError('')}}
         />
         <View className="pt-12 justify-center items-center">
           <BaseText className="text-[#171B4B] text-base">
@@ -128,6 +180,12 @@ const style = StyleSheet.create({
     backgroundColor: '#F7F7F8',
     borderRadius: 8,
     width: '100%',
+  },
+  emailInput: {
+    backgroundColor: '#F7F7F8',
+    borderRadius: 8,
+    width: '100%',
+    padding: 20,
   },
   emailBtn: {
     backgroundColor: 'white',

@@ -1,5 +1,5 @@
 export * from './Disclaimer'
-export * from './SignupPhone'
+export * from './CreateAccount'
 export * from './Splash'
 export * from './Welcome'
 export * from './Verify'

@@ -7,7 +7,7 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import {useVerfiyNumber} from '../hooks/useVerifyNumber';
 
 export const Verify = ({navigation, route}: any) => {
-  const {otp, phone, expiry} = route.params;
+  const {otp, value, expiry, type} = route.params;
   const [resendOTP, setRendOTP] = useState(false);
   const [updatedOTP, setUpdatedOTP] = useState('');
   const [updatedOTPExpiry, setUpdatedOTPExpiry] = useState('');
@@ -20,7 +20,7 @@ export const Verify = ({navigation, route}: any) => {
   const ResendOtp = async () => {
     startTimer();
     setRendOTP(true);
-    const res = await sendOTP(phone);
+    const res = await sendOTP(value, type);
     if (res) {
       setUpdatedOTP(res.otp);
       setUpdatedOTPExpiry(res.expiry);
@@ -63,14 +63,14 @@ export const Verify = ({navigation, route}: any) => {
     <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
       <Icon
         name="chevron-back-outline"
-        onPress={() => navigation.navigate('SignupPhone', {counter})}
+        onPress={() => navigation.navigate('CreateAccount')}
         style={{top: 20, padding: 15}}
         size={32}
       />
       <ScrollView className="container mx-auto px-4 pt-12 pl-6">
-        <Header icon={'phone'} heading={'Verify your phone number'} />
+        <Header icon={type} heading={`Verify your ${type == 'phone' ? 'phone number' : 'email'}`} />
         <BaseText className="pt-8 text-base">
-          Please enter the 4 digit code sent to {phone}
+          Please enter the 4 digit code sent to {value}
         </BaseText>
         <OtpInput
           numberOfDigits={4}

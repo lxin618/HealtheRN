@@ -12,13 +12,16 @@ type VerifyOTPInput = {
 type SendOTPRes = {
   otp: string;
   expiry: string;
-  phone: string;
+  value: string;
+  type: string;
 };
 
 export const useVerfiyNumber = () => {
+
   const phoneInput = useRef<PhoneInput>(null);
-  const sendOTP = async (phoneNumber: string): Promise<null | SendOTPRes> => {
-    if (!phoneNumber) {
+
+  const sendOTP = async (value: string, type: string): Promise<null | SendOTPRes> => {
+    if (!value) {
       return null;
     }
     const url = `${API_URL}/api/auth/sendOtp`;
@@ -26,9 +29,7 @@ export const useVerfiyNumber = () => {
       const response = await fetch(url, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          phone: phoneNumber,
-        }),
+        body: JSON.stringify({value, type}),
       });
       const res = await response.json();
       const statusCode = response.status;
@@ -45,7 +46,8 @@ export const useVerfiyNumber = () => {
         return {
           otp: res.otp,
           expiry: res.expiry,
-          phone: phoneNumber,
+          value,
+          type
         };
       }
     } catch (error) {
