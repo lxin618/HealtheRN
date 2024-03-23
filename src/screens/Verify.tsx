@@ -13,7 +13,7 @@ export const Verify = ({navigation, route}: any) => {
   const [updatedOTPExpiry, setUpdatedOTPExpiry] = useState('');
   const [counter, setCounter] = useState(60);
   const timer = useRef<ReturnType<typeof setInterval>>();
-  console.log('first time', otp);
+  console.log('first time', otp, type);
 
   const {sendOTP, handleVerify} = useVerfiyNumber();
 
@@ -49,13 +49,15 @@ export const Verify = ({navigation, route}: any) => {
   }, [counter, stopTimer]);
 
   const onVerify = (text: string) => {
-    const res = handleVerify({
+    const success = handleVerify({
       OTPTyped: text,
       OTPReceived: updatedOTP ? updatedOTP : otp,
       OTPExpiry: updatedOTPExpiry ? updatedOTPExpiry : expiry,
     });
 
-    if (res) {
+    if (success) {
+      console.log(type)
+      navigation.navigate('Verified', {type: type});
     }
   };
 
@@ -74,7 +76,7 @@ export const Verify = ({navigation, route}: any) => {
         </BaseText>
         <OtpInput
           numberOfDigits={4}
-          autoFocus
+          autoFocus={true}
           focusColor="green"
           focusStickBlinkingDuration={500}
           onFilled={text => onVerify(text)}

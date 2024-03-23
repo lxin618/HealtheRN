@@ -98,7 +98,6 @@ export const useVerfiyNumber = () => {
       });
       return false;
     }
-    console.log('done');
     return true;
   };
 

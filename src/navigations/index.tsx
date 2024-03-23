@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Welcome, CreateAccount, Disclaimer, Splash, Verify} from '../screens';
+import {Welcome, CreateAccount, Disclaimer, Splash, Verify, Verified} from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +40,11 @@ export const AppNavigation = () => {
             name="Verify"
             options={{headerShown: false}}
             component={Verify}
+          />
+          <Stack.Screen
+            name="Verified"
+            options={{headerShown: false}}
+            component={Verified}
           />
         </Stack.Navigator>
       )}

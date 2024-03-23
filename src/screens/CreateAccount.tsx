@@ -78,10 +78,10 @@ export const CreateAccount = ({navigation}: any) => {
 
   const disabledButton = () => {
     if (screen == 'phone') {
-      return numberValidError || !phoneValid
+      return numberValidError || !phoneValid ? true : false
     }
     else {
-      return numberValidError || !emailValid
+      return numberValidError || !emailValid ? true : false
     }
   }
 
@@ -134,7 +134,7 @@ export const CreateAccount = ({navigation}: any) => {
         <Button
           disabled={disabledButton()}
           buttonText="Continue"
-          onPress={() => onSend('phone')}
+          onPress={() => onSend(screen == 'phone' ?'phone' : 'email')}
         />
         <Button
           icon={screen == 'email' ? 'cellphone' : 'email-outline'}

@@ -16,7 +16,7 @@ interface Props {
   iconStyle?: StyleProp<ViewStyle>;
   icon?: string;
   disabled?: boolean;
-  onPress: () => void
+  onPress: () => void;
 }
 
 const Button = (props: Props) => {
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     textAlign: 'center',
     width: '100%',
+    right: 3
   },
 });
 
