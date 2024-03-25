@@ -12,7 +12,7 @@ export const Welcome = ({navigation}: any) => {
   return (
     <SafeAreaView style={style.container}>
       <View style={style.imageContainer}>
-        <Image source={require('../../assets/images/logo.png')} />
+        <Image source={require('../../assets/images/logo.png')} style={{width: 80, height: 80}}/>
       </View>
       <View style={style.textContainer}>
         <Text style={style.text}>Health</Text>

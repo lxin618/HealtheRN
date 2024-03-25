@@ -17,6 +17,7 @@ export const Splash = () => {
             .overshootClamping(1)
             .restDisplacementThreshold(0.1)
             .restSpeedThreshold(1)}
+          style={{width: 80, height: 80}}
           source={require('../../assets/images/logo.png')}
         />
       </View>

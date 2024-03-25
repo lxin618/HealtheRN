@@ -13,7 +13,7 @@ const Header = (props: Props) => {
   const {heading, icon = 'logo'} = props;
   const HEADER_IMAGES = {
     logo: {
-      uri: require('../../assets/images/logo.png')
+      uri: require('../../assets/images/logo_heading.png')
     },
     email: {
       uri: require('../../assets/images/email.png')
@@ -47,7 +47,7 @@ const Header = (props: Props) => {
           style={{
             position: 'absolute',
             top: -40,
-            right: 10,
+            right: 0,
             height: 60,
             resizeMode: 'contain',
           }}
