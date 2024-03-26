@@ -5,6 +5,7 @@ import {OtpInput} from 'react-native-otp-entry';
 import BaseText from '../components/BaseText';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {useVerfiyNumber} from '../hooks/useVerifyNumber';
+import Button from '../components/Button';
 
 export const Verify = ({navigation, route}: any) => {
   const {otp, value, expiry, type} = route.params;
@@ -56,7 +57,7 @@ export const Verify = ({navigation, route}: any) => {
     });
 
     if (success) {
-      console.log(type)
+      stopTimer();
       navigation.navigate('Verified', {type: type});
     }
   };
@@ -84,9 +85,8 @@ export const Verify = ({navigation, route}: any) => {
             containerStyle: {top: 30},
             pinCodeContainerStyle: {
               width: '20%',
-              height: '65%',
+              height: '75%',
               backgroundColor: '#F7F7F8',
-              borderWidth: 0,
             },
           }}
         />
