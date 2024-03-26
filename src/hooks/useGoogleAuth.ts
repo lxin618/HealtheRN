@@ -5,13 +5,16 @@ import {
 import Toast from 'react-native-root-toast';
 import {
   GoogleAuthProvider,
-  UserCredential,
   signInWithCredential,
 } from 'firebase/auth';
 import {auth} from '../services/firebase';
 import {API_URL} from '../../env/env.json';
+import { useState } from 'react';
 
 export const useGoogleAuth = () => {
+
+  const [googleSigninLoading, setGoogleSigninLoading] = useState(false);
+
   GoogleSignin.configure({
     // TODO move the key to .env
     webClientId:
@@ -23,6 +26,7 @@ export const useGoogleAuth = () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+      setGoogleSigninLoading(true);
       const googleCredential = GoogleAuthProvider.credential(userInfo.idToken);
       // this step saves user in firebase db - also result contains the user details
       const result: any = await signInWithCredential(auth, googleCredential);
@@ -48,12 +52,13 @@ export const useGoogleAuth = () => {
           textColor: 'black',
         });
       } else {
+        setGoogleSigninLoading(false);
         return res;
       }
     } catch (error: any) {
       if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
-        Toast.show(`😕 Sorry - services not available at the moment`, {
+        Toast.show(`😕 Sorry - services not available at the moment, please try again later`, {
           duration: 5000,
           backgroundColor: '#FFCCCC',
           textColor: 'black',
@@ -62,5 +67,23 @@ export const useGoogleAuth = () => {
     }
   };
 
-  return {signIn};
+  const signOut = async () => {
+	try {
+		await GoogleSignin.signOut();
+		// Perform additional cleanup and logout operations.
+	} catch (error) {
+        // play services not available or outdated
+        Toast.show(`😕 Sorry - services not available at the moment, please try again later`, {
+            duration: 5000,
+            backgroundColor: '#FFCCCC',
+            textColor: 'black',
+          });
+	}
+}
+
+  return {
+    googleSigninLoading,
+    signIn,
+    signOut
+  };
 };

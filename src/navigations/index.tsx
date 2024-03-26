@@ -12,7 +12,7 @@ export const AppNavigation = () => {
     // Simulate loading process
     setTimeout(() => {
       setIsLoading(false);
-    }, 5000); // Adjust the time as needed
+    }, 3500); // Adjust the time as needed
   }, []);
 
   return (

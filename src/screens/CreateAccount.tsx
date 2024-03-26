@@ -34,7 +34,7 @@ export const CreateAccount = ({navigation}: any) => {
 
   // hooks
   const {sendOTP, validateNumber} = useVerfiyNumber();
-  const {signIn} = useGoogleAuth();
+  const {googleSigninLoading, signIn} = useGoogleAuth();
 
   const onChangeNumber = (number: string) => {
     const isValid = validateNumber(number, phoneInput);
@@ -104,7 +104,7 @@ export const CreateAccount = ({navigation}: any) => {
         size={32}
       />
       <ScrollView className="container mx-auto px-4 pt-12 pl-6">
-        <Spinner visible={loading} overlayColor={'rgba(0, 0, 0, 0.40)'} />
+        <Spinner visible={loading || googleSigninLoading} overlayColor={'rgba(0, 0, 0, 0.40)'} />
         <Header heading={'Create an account'} />
         <View className="pt-10 pb-4">
           {screen == 'phone' && (
