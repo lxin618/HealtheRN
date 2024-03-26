@@ -47,7 +47,7 @@ const Header = (props: Props) => {
           style={{
             position: 'absolute',
             top: -40,
-            right: 0,
+            right: -7,
             height: 60,
             resizeMode: 'contain',
           }}

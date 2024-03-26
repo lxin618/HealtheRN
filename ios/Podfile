@@ -28,6 +28,14 @@ end
 target 'HealtheRN' do
   config = use_native_modules!
 
+  pod 'GoogleUtilities', :modular_headers => true
+  pod 'FirebaseDatabase', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
+  pod 'leveldb-library', :modular_headers => true
+  pod 'FirebaseCoreInternal', :modular_headers => true
+  pod 'FirebaseAppCheckInterop', :modular_headers => true
+  $RNFirebaseAsStaticFramework = true
+
   use_react_native!(
     :path => config[:reactNativePath],
     # Enables Flipper.

@@ -17,8 +17,10 @@ import {useRef, useState} from 'react';
 import PhoneInput from 'react-native-phone-number-input';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {useVerfiyNumber} from '../hooks/useVerifyNumber';
+import {useGoogleAuth} from '../hooks/useGoogleAuth';
+import Toast from 'react-native-root-toast';
 
-type OTOPType = 'phone' | 'email'
+type OTOPType = 'phone' | 'email';
 
 export const CreateAccount = ({navigation}: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -29,15 +31,18 @@ export const CreateAccount = ({navigation}: any) => {
   const [screen, setScreen] = useState<'phone' | 'email'>('phone');
   const [loading, setLoading] = useState(false);
   const phoneInput = useRef<PhoneInput>(null);
+
+  // hooks
   const {sendOTP, validateNumber} = useVerfiyNumber();
+  const {signIn} = useGoogleAuth();
 
   const onChangeNumber = (number: string) => {
     const isValid = validateNumber(number, phoneInput);
     if (isValid) {
       setNumberValidError('');
-      setPhoneValid(true)
+      setPhoneValid(true);
     } else {
-      setPhoneValid(false)
+      setPhoneValid(false);
       setNumberValidError('Please provide a valid phone number');
     }
     setPhoneNumber(number);
@@ -45,12 +50,11 @@ export const CreateAccount = ({navigation}: any) => {
 
   const onSend = async (type: OTOPType) => {
     setLoading(true);
-    let value
+    let value;
     if (type == 'phone') {
-      value = phoneNumber
-    }
-    else {
-      value = email
+      value = phoneNumber;
+    } else {
+      value = email;
     }
     const res = await sendOTP(value, type);
     if (res) {
@@ -58,7 +62,7 @@ export const CreateAccount = ({navigation}: any) => {
         otp: res.otp,
         value,
         expiry: res.expiry,
-        type
+        type,
       });
     }
     setLoading(false);
@@ -67,23 +71,38 @@ export const CreateAccount = ({navigation}: any) => {
   const onChangeEmail = (text: string) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(text) === true) {
-      setEmailValid(true)
+      setEmailValid(true);
       setNumberValidError('');
     } else {
-      setEmailValid(false)
+      setEmailValid(false);
       setNumberValidError('Please provide a valid email address');
     }
-    setEmail(text)
-  }
+    setEmail(text);
+  };
 
   const disabledButton = () => {
     if (screen == 'phone') {
-      return numberValidError || !phoneValid ? true : false
+      return numberValidError || !phoneValid ? true : false;
+    } else {
+      return numberValidError || !emailValid ? true : false;
     }
-    else {
-      return numberValidError || !emailValid ? true : false
-    }
-  }
+  };
+
+  const googleSignin = async () => {
+    const res = await signIn();
+	if (res) {
+		navigation.navigate('Home');
+	}
+	else {
+		Toast.show(`😕 operation (e.g. sign in) is in progress already`, {
+			duration: 5000,
+			position: Toast.positions.BOTTOM,
+			animation: true,
+			hideOnPress: true,
+			backgroundColor: 'red',
+		});
+	}
+  };
 
   return (
     <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
@@ -97,34 +116,36 @@ export const CreateAccount = ({navigation}: any) => {
         <Spinner visible={loading} overlayColor={'rgba(0, 0, 0, 0.40)'} />
         <Header heading={'Create an account'} />
         <View className="pt-10 pb-4">
-          {screen == 'phone' && 
+          {screen == 'phone' && (
             <>
-            <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText><PhoneInput
-              ref={phoneInput}
-              defaultValue={phoneNumber}
-              containerStyle={style.textInput}
-              defaultCode="NZ"
-              layout="first"
-              onChangeFormattedText={number => onChangeNumber(number)}
-              disableArrowIcon
-              countryPickerProps={{
-                countryCodes: ['NZ'],
-              }}
-              autoFocus />
+              <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText>
+              <PhoneInput
+                ref={phoneInput}
+                defaultValue={phoneNumber}
+                containerStyle={style.textInput}
+                defaultCode="NZ"
+                layout="first"
+                onChangeFormattedText={number => onChangeNumber(number)}
+                disableArrowIcon
+                countryPickerProps={{
+                  countryCodes: ['NZ'],
+                }}
+                autoFocus
+              />
             </>
-          }
-          {screen == 'email' && 
+          )}
+          {screen == 'email' && (
             <>
-            <BaseText className="pl-1 pb-2 text-[#171B4B]">Email</BaseText>
-            <TextInput
-              style={style.emailInput}
-              autoFocus
-              defaultValue={email}
-              placeholder='Enter your email'
-              onChangeText={text => onChangeEmail(text)}
-            />
+              <BaseText className="pl-1 pb-2 text-[#171B4B]">Email</BaseText>
+              <TextInput
+                style={style.emailInput}
+                autoFocus
+                defaultValue={email}
+                placeholder="Enter your email"
+                onChangeText={text => onChangeEmail(text)}
+              />
             </>
-          }
+          )}
           {numberValidError && (
             <BaseText className="pt-2 pl-2 text-red-500">
               {numberValidError}
@@ -134,15 +155,20 @@ export const CreateAccount = ({navigation}: any) => {
         <Button
           disabled={disabledButton()}
           buttonText="Continue"
-          onPress={() => onSend(screen == 'phone' ?'phone' : 'email')}
+          onPress={() => onSend(screen == 'phone' ? 'phone' : 'email')}
         />
         <Button
           icon={screen == 'email' ? 'cellphone' : 'email-outline'}
           iconStyle={style.icon}
           style={style.emailBtn}
           textStyle={style.textStyle as StyleProp<ViewStyle>}
-          buttonText={screen == 'email' ? "Continue with phone" : 'Continue with email'}
-          onPress={() => {setScreen(screen == 'email' ? 'phone' : 'email'); setNumberValidError('')}}
+          buttonText={
+            screen == 'email' ? 'Continue with phone' : 'Continue with email'
+          }
+          onPress={() => {
+            setScreen(screen == 'email' ? 'phone' : 'email');
+            setNumberValidError('');
+          }}
         />
         <View className="pt-12 justify-center items-center">
           <BaseText className="text-[#171B4B] text-base">
@@ -152,9 +178,7 @@ export const CreateAccount = ({navigation}: any) => {
         <View className="pt-8 justify-center items-center">
           <Icon
             name="logo-google"
-            onPress={() => {
-              console.log('123');
-            }}
+            onPress={googleSignin}
             style={style.google}
             size={32}
           />
