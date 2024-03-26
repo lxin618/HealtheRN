@@ -93,15 +93,6 @@ export const CreateAccount = ({navigation}: any) => {
 	if (res) {
 		navigation.navigate('Home');
 	}
-	else {
-		Toast.show(`😕 operation (e.g. sign in) is in progress already`, {
-			duration: 5000,
-			position: Toast.positions.BOTTOM,
-			animation: true,
-			hideOnPress: true,
-			backgroundColor: 'red',
-		});
-	}
   };
 
   return (

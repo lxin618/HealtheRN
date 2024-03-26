@@ -36,10 +36,8 @@ export const useVerfiyNumber = () => {
       if (statusCode != 200) {
         Toast.show(`😕 ${res.response}`, {
           duration: 5000,
-          position: Toast.positions.BOTTOM,
-          animation: true,
-          hideOnPress: true,
-          backgroundColor: 'red',
+          backgroundColor: '#FFCCCC',
+          textColor: 'black'
         });
         return null;
       } else {
@@ -53,11 +51,8 @@ export const useVerfiyNumber = () => {
     } catch (error) {
       Toast.show(`😕 Something has gone wrong`, {
         duration: 5000,
-        position: Toast.positions.BOTTOM,
-        opacity: 1,
-        animation: true,
-        hideOnPress: true,
-        backgroundColor: 'red',
+        backgroundColor: '#FFCCCC',
+        textColor: 'black'
       });
       return null;
     }
@@ -80,21 +75,15 @@ export const useVerfiyNumber = () => {
     if (OTPExpiry < new Date().toISOString()) {
       Toast.show(`😕 Verification code is expired`, {
         duration: 5000,
-        position: Toast.positions.BOTTOM,
-        opacity: 1,
-        animation: true,
-        hideOnPress: true,
-        backgroundColor: 'red',
+        backgroundColor: '#FFCCCC',
+        textColor: 'black'
       });
       return false;
     } else if (OTPTyped != OTPReceived) {
       Toast.show(`😕 Invalid code`, {
         duration: 5000,
-        position: Toast.positions.BOTTOM,
-        opacity: 1,
-        animation: true,
-        hideOnPress: true,
-        backgroundColor: 'red',
+        backgroundColor: '#FFCCCC',
+        textColor: 'black'
       });
       return false;
     }

@@ -44,12 +44,9 @@ export const useGoogleAuth = () => {
       if (statusCode != 200) {
         Toast.show(`😕 ${res}`, {
           duration: 5000,
-          position: Toast.positions.BOTTOM,
-          animation: true,
-          hideOnPress: true,
-          backgroundColor: 'red',
+          backgroundColor: '#FFCCCC',
+          textColor: 'black',
         });
-        return null;
       } else {
         return res;
       }
@@ -58,21 +55,8 @@ export const useGoogleAuth = () => {
         // play services not available or outdated
         Toast.show(`😕 Sorry - services not available at the moment`, {
           duration: 5000,
-          position: Toast.positions.BOTTOM,
-          animation: true,
-          hideOnPress: true,
-          backgroundColor: 'red',
-        });
-        console.log('error', error);
-      } else {
-        console.log('error', error);
-        // play services not available or outdated
-        Toast.show(`😕 Sorry - something gone wrong, please try again later`, {
-          duration: 5000,
-          position: Toast.positions.BOTTOM,
-          animation: true,
-          hideOnPress: true,
-          backgroundColor: 'red',
+          backgroundColor: '#FFCCCC',
+          textColor: 'black',
         });
       }
     }
