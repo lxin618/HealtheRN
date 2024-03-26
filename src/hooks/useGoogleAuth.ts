@@ -54,19 +54,7 @@ export const useGoogleAuth = () => {
         return res;
       }
     } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-        console.log('user cancelled the login flow');
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-        Toast.show(`😕 Sign in is in progress already`, {
-          duration: 5000,
-          position: Toast.positions.BOTTOM,
-          animation: true,
-          hideOnPress: true,
-          backgroundColor: 'red',
-        });
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
         Toast.show(`😕 Sorry - services not available at the moment`, {
           duration: 5000,
