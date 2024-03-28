@@ -106,7 +106,7 @@ export const Signin = ({navigation}: any) => {
     <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
       <Icon
         name="chevron-back-outline"
-        onPress={() => navigation.navigate('Disclaimer')}
+        onPress={() => navigation.navigate('Welcome')}
         style={{top: 20, padding: 15}}
         size={32}
       />
@@ -115,7 +115,9 @@ export const Signin = ({navigation}: any) => {
           visible={loading || googleSigninLoading}
           overlayColor={'rgba(0, 0, 0, 0.40)'}
         />
-        <Header heading={'Login to your account'} />
+        <Animated.View entering={FadeInDown.delay(50).duration(500).springify()}>
+            <Header heading={'Login to your account'} />
+        </Animated.View>
         <Animated.View
           entering={FadeInDown.delay(50).duration(500).springify()}
           className="pt-6 pb-1">
