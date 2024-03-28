@@ -22,7 +22,7 @@ import Toast from 'react-native-root-toast';
 
 type OTOPType = 'phone' | 'email';
 
-export const CreateAccount = ({navigation}: any) => {
+export const Signin = ({navigation}: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [phoneValid, setPhoneValid] = useState(false);
@@ -30,6 +30,9 @@ export const CreateAccount = ({navigation}: any) => {
   const [numberValidError, setNumberValidError] = useState('');
   const [screen, setScreen] = useState<'phone' | 'email'>('phone');
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
   const phoneInput = useRef<PhoneInput>(null);
 
   // hooks
@@ -80,19 +83,23 @@ export const CreateAccount = ({navigation}: any) => {
     setEmail(text);
   };
 
+  const onChangePassword = (text: string) => {
+
+  }
+
   const disabledButton = () => {
     if (screen == 'phone') {
-      return numberValidError || !phoneValid ? true : false;
+      return numberValidError || !phoneValid ? true : false || !password;
     } else {
-      return numberValidError || !emailValid ? true : false;
+      return numberValidError || !emailValid ? true : false || !password;
     }
   };
 
   const googleSignin = async () => {
     const res = await signIn();
-	if (res) {
-		navigation.navigate('Home');
-	}
+    if (res) {
+      navigation.navigate('Home');
+    }
   };
 
   return (
@@ -104,9 +111,14 @@ export const CreateAccount = ({navigation}: any) => {
         size={32}
       />
       <ScrollView className="container mx-auto px-4 pt-12 pl-6">
-        <Spinner visible={loading || googleSigninLoading} overlayColor={'rgba(0, 0, 0, 0.40)'} />
-        <Header heading={'Create an account'} />
-        <View className="pt-10 pb-4">
+        <Spinner
+          visible={loading || googleSigninLoading}
+          overlayColor={'rgba(0, 0, 0, 0.40)'}
+        />
+        <Header heading={'Login to your account'} />
+        <Animated.View
+          entering={FadeInDown.delay(50).duration(500).springify()}
+          className="pt-6 pb-1">
           {screen == 'phone' && (
             <>
               <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText>
@@ -142,48 +154,86 @@ export const CreateAccount = ({navigation}: any) => {
               {numberValidError}
             </BaseText>
           )}
-        </View>
-        <Button
-          disabled={disabledButton()}
-          buttonText="Continue"
-          onPress={() => onSend(screen == 'phone' ? 'phone' : 'email')}
-        />
-        <Button
-          icon={screen == 'email' ? 'cellphone' : 'email-outline'}
-          iconStyle={style.icon}
-          style={style.emailBtn}
-          textStyle={style.textStyle as StyleProp<ViewStyle>}
-          buttonText={
-            screen == 'email' ? 'Continue with phone' : 'Continue with email'
-          }
-          onPress={() => {
-            setScreen(screen == 'email' ? 'phone' : 'email');
-            setNumberValidError('');
-          }}
-        />
-        <View className="pt-12 justify-center items-center">
-          <BaseText className="text-[#171B4B] text-base">
-            Or sign up with
-          </BaseText>
-        </View>
-        <View className="pt-8 justify-center items-center">
-          <Icon
-            name="logo-google"
-            onPress={googleSignin}
-            style={style.google}
-            size={32}
-          />
-        </View>
-        <Animated.View
-          entering={FadeInDown.delay(50).duration(500).springify()}
-          className="flex-row justify-center h-full mt-20 pb-50">
-          <BaseText className="text-[#171B4B]">
-            Already have an account?{' '}
-          </BaseText>
-          <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
-            <BaseText className="font-medium text-[#0076FF]">Sign in</BaseText>
+         
+        <BaseText className="pl-1 pt-4 pb-2 text-[#171B4B]">
+            Password
+        </BaseText>
+        <View
+            style={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+            }}
+            >
+            <TextInput
+                secureTextEntry={passwordVisible ? false : true}
+                style={style.emailInput}
+                returnKeyType='go'
+                defaultValue={password}
+                placeholder="Enter your password"
+                onChangeText={text => onChangePassword(text)}
+            />
+            <Icon
+                style={{position: 'absolute', right: 20}}
+                name={passwordVisible ? 'eye' : 'eye-off-sharp'}
+                color='#8B8DA5'
+                size={24}
+                onPress={() => setPasswordVisible(!passwordVisible)}
+            />
+          </View>
+          <TouchableOpacity className="w-1/2 mx-auto" onPress={() => {}}>
+            <View className="pt-4 justify-center items-center">
+              <BaseText className="text-[#0076FF] text-base">
+                Forgot password?
+              </BaseText>
+            </View>
           </TouchableOpacity>
         </Animated.View>
+        <Animated.View
+          entering={FadeInDown.delay(100).duration(500).springify()}>
+          <Button
+            disabled={disabledButton()}
+            buttonText="Continue"
+            onPress={() => onSend(screen == 'phone' ? 'phone' : 'email')}
+          />
+          <Button
+            icon={screen == 'email' ? 'cellphone' : 'email-outline'}
+            iconStyle={style.icon}
+            style={style.emailBtn}
+            textStyle={style.textStyle as StyleProp<ViewStyle>}
+            buttonText={
+              screen == 'email' ? 'Continue with phone' : 'Continue with email'
+            }
+            onPress={() => {
+              setScreen(screen == 'email' ? 'phone' : 'email');
+              setNumberValidError('');
+            }}
+          />
+          <View className="pt-10 justify-center items-center">
+            <BaseText className="text-[#171B4B] text-base">
+              Or sign in with
+            </BaseText>
+          </View>
+          <View className="pt-6 justify-center items-center">
+            <Icon
+              name="logo-google"
+              onPress={googleSignin}
+              style={style.google}
+              size={32}
+            />
+          </View>
+          <View className="flex-row justify-center h-full mt-10 pb-50">
+            <BaseText className="text-[#171B4B]">New to HealthE? </BaseText>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('CreateAccount')}>
+              <BaseText className="font-medium text-[#0076FF]">
+                Create a new account
+              </BaseText>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+
         <View style={{height: 100}} />
       </ScrollView>
     </SafeAreaView>

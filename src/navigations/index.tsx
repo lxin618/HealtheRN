@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Welcome, CreateAccount, Disclaimer, Splash, Verify, Verified, Home} from '../screens';
+import {Welcome, CreateAccount, Disclaimer, Splash, Verify, Verified, Home, Signin} from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +50,11 @@ export const AppNavigation = () => {
             name="Home"
             options={{headerShown: false}}
             component={Home}
+          />
+          <Stack.Screen
+            name="Signin"
+            options={{headerShown: false}}
+            component={Signin}
           />
         </Stack.Navigator>
       )}

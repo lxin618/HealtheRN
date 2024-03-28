@@ -1,4 +1,4 @@
-import {SafeAreaView, ScrollView, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import Header from '../components/Header';
 import BaseText from '../components/BaseText';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -14,7 +14,7 @@ export const Verified = ({navigation, route}: any) => {
         style={{top: 20, padding: 15}}
         size={32}
       />
-      <ScrollView className="container mx-auto px-4 pt-12 pl-6">
+      <View className="container mx-auto px-4 pt-12 pl-6">
         <Header
           icon={'check'}
           heading={`We verified your ${
@@ -31,7 +31,7 @@ export const Verified = ({navigation, route}: any) => {
             buttonText="Continue"
             onPress={() => {}}
         />
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

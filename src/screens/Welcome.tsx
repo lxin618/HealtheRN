@@ -30,7 +30,7 @@ export const Welcome = ({navigation}: any) => {
       <Animated.View
         entering={FadeInDown.delay(30).duration(50).springify()}
         style={style.signinBtn}>
-        <TouchableOpacity onPress={() => navigation.navigate('Disclaimer')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
           <Animated.Text style={{fontFamily: 'Poppins-Regular'}} className="text-lg font-medium text-[#0076FF] text-center">
             Sign in
           </Animated.Text>

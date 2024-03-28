@@ -1,11 +1,10 @@
-import {SafeAreaView, ScrollView, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
 import {OtpInput} from 'react-native-otp-entry';
 import BaseText from '../components/BaseText';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {useVerfiyNumber} from '../hooks/useVerifyNumber';
-import Button from '../components/Button';
 
 export const Verify = ({navigation, route}: any) => {
   const {otp, value, expiry, type} = route.params;
@@ -70,7 +69,7 @@ export const Verify = ({navigation, route}: any) => {
         style={{top: 20, padding: 15}}
         size={32}
       />
-      <ScrollView className="container mx-auto px-4 pt-12 pl-6">
+      <View className="container mx-auto px-4 pt-12 pl-6">
         <Header icon={type} heading={`Verify your ${type == 'phone' ? 'phone number' : 'email'}`} />
         <BaseText className="pt-8 text-base">
           Please enter the 4 digit code sent to {value}
@@ -85,13 +84,14 @@ export const Verify = ({navigation, route}: any) => {
             containerStyle: {top: 30},
             pinCodeContainerStyle: {
               width: '20%',
-              height: '75%',
+              height: '55%',
               backgroundColor: '#F7F7F8',
             },
           }}
         />
         <TouchableOpacity
           style={resendOTP ? {opacity: 0.5} : {opacity: 1}}
+          className='w-1/2 mx-auto'
           disabled={resendOTP}
           onPress={() => ResendOtp()}>
           <View className="pt-6 pb-4 justify-center items-center">
@@ -100,7 +100,7 @@ export const Verify = ({navigation, route}: any) => {
             </BaseText>
           </View>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
