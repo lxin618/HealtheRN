@@ -16,9 +16,7 @@ import Animated, {FadeInDown} from 'react-native-reanimated';
 import {useRef, useState} from 'react';
 import PhoneInput from 'react-native-phone-number-input';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {useVerfiyNumber} from '../hooks/useVerifyNumber';
-import {useGoogleAuth} from '../hooks/useGoogleAuth';
-import Toast from 'react-native-root-toast';
+import {useVerfiyNumber, useGoogleAuth, useSignin} from '../hooks';
 
 type OTOPType = 'phone' | 'email';
 
@@ -31,12 +29,14 @@ export const Signin = ({navigation}: any) => {
   const [screen, setScreen] = useState<'phone' | 'email'>('phone');
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
+  const [passwordValidError, setPasswordValidError] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const phoneInput = useRef<PhoneInput>(null);
 
   // hooks
-  const {sendOTP, validateNumber} = useVerfiyNumber();
+  const {signin} = useSignin();
+  const {validateNumber} = useVerfiyNumber();
   const {googleSigninLoading, signIn} = useGoogleAuth();
 
   const onChangeNumber = (number: string) => {
@@ -59,15 +59,19 @@ export const Signin = ({navigation}: any) => {
     } else {
       value = email;
     }
-    const res = await sendOTP(value, type);
-    if (res) {
-      navigation.navigate('Verify', {
-        otp: res.otp,
-        value,
-        expiry: res.expiry,
+    const res = await signin(
         type,
-      });
-    }
+        value, 
+        password
+    );
+    // if (res) {
+    //   navigation.navigate('Verify', {
+    //     otp: res.otp,
+    //     value,
+    //     expiry: res.expiry,
+    //     type,
+    //   });
+    // }
     setLoading(false);
   };
 
@@ -83,8 +87,19 @@ export const Signin = ({navigation}: any) => {
     setEmail(text);
   };
 
-  const onChangePassword = (text: string) => {
-
+  const onChangePassword = (pass: string) => {
+    if (pass.length < 6) {
+        setPasswordValidError('Password must be at least 6 characters');
+        return
+    }
+    if (pass.search(/[a-z]/i) < 0) {
+        setPasswordValidError('Password must contain at least one letter');
+        return
+    }
+    else {
+        setPasswordValidError('');
+        setPassword(pass)
+    }
   }
 
   const disabledButton = () => {
@@ -156,8 +171,7 @@ export const Signin = ({navigation}: any) => {
               {numberValidError}
             </BaseText>
           )}
-         
-        <BaseText className="pl-1 pt-4 pb-2 text-[#171B4B]">
+        <BaseText className="pl-1 pt-3 pb-2 text-[#171B4B]">
             Password
         </BaseText>
         <View
@@ -184,6 +198,11 @@ export const Signin = ({navigation}: any) => {
                 onPress={() => setPasswordVisible(!passwordVisible)}
             />
           </View>
+          {passwordValidError && (
+            <BaseText className="pt-2 pl-2 text-red-500">
+              {passwordValidError}
+            </BaseText>
+          )}
           <TouchableOpacity className="w-1/2 mx-auto" onPress={() => {}}>
             <View className="pt-4 justify-center items-center">
               <BaseText className="text-[#0076FF] text-base">
@@ -235,7 +254,6 @@ export const Signin = ({navigation}: any) => {
             </TouchableOpacity>
           </View>
         </Animated.View>
-
         <View style={{height: 100}} />
       </ScrollView>
     </SafeAreaView>

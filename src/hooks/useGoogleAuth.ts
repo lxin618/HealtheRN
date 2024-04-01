@@ -10,6 +10,7 @@ import {
 import {auth} from '../services/firebase';
 import {API_URL} from '../../env/env.json';
 import { useState } from 'react';
+import { SnackBar } from '../utils/Toast';
 
 export const useGoogleAuth = () => {
 
@@ -46,11 +47,7 @@ export const useGoogleAuth = () => {
       const res = await response.json();
       const statusCode = response.status;
       if (statusCode != 200) {
-        Toast.show(`😕 ${res}`, {
-          duration: 5000,
-          backgroundColor: '#FFCCCC',
-          textColor: 'black',
-        });
+        SnackBar.show(`😕 ${res}`, 'error')
       } else {
         setGoogleSigninLoading(false);
         return res;
@@ -58,11 +55,7 @@ export const useGoogleAuth = () => {
     } catch (error: any) {
       if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
-        Toast.show(`😕 Sorry - services not available at the moment, please try again later`, {
-          duration: 5000,
-          backgroundColor: '#FFCCCC',
-          textColor: 'black',
-        });
+        SnackBar.show(`😕 Sorry - services not available at the moment, please try again later`, 'error')
       }
     }
   };
@@ -73,11 +66,7 @@ export const useGoogleAuth = () => {
 		// Perform additional cleanup and logout operations.
 	} catch (error) {
         // play services not available or outdated
-        Toast.show(`😕 Sorry - services not available at the moment, please try again later`, {
-            duration: 5000,
-            backgroundColor: '#FFCCCC',
-            textColor: 'black',
-          });
+        SnackBar.show(`😕 Sorry - services not available at the moment, please try again later`, 'error')
 	}
 }
 

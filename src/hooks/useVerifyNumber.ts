@@ -2,6 +2,7 @@ import {useRef, useState} from 'react';
 import PhoneInput from 'react-native-phone-number-input';
 import {API_URL} from '../../env/env.json';
 import Toast from 'react-native-root-toast';
+import { SnackBar } from '../utils/Toast';
 
 type VerifyOTPInput = {
   OTPTyped: string;
@@ -34,11 +35,7 @@ export const useVerfiyNumber = () => {
       const res = await response.json();
       const statusCode = response.status;
       if (statusCode != 200) {
-        Toast.show(`😕 ${res.response}`, {
-          duration: 5000,
-          backgroundColor: '#FFCCCC',
-          textColor: 'black'
-        });
+        SnackBar.show(`😕 ${res}`, 'error')
         return null;
       } else {
         return {
@@ -49,11 +46,7 @@ export const useVerfiyNumber = () => {
         };
       }
     } catch (error) {
-      Toast.show(`😕 Something has gone wrong`, {
-        duration: 5000,
-        backgroundColor: '#FFCCCC',
-        textColor: 'black'
-      });
+      SnackBar.show(`😕 Something has gone wrong, please try again later`, 'error')
       return null;
     }
   };
@@ -73,18 +66,10 @@ export const useVerfiyNumber = () => {
   const handleVerify = (codeInfo: VerifyOTPInput) => {
     const {OTPTyped, OTPReceived, OTPExpiry} = codeInfo;
     if (OTPExpiry < new Date().toISOString()) {
-      Toast.show(`😕 Verification code is expired`, {
-        duration: 5000,
-        backgroundColor: '#FFCCCC',
-        textColor: 'black'
-      });
+      SnackBar.show(`😕 Verification code is expired`, 'error')
       return false;
     } else if (OTPTyped != OTPReceived) {
-      Toast.show(`😕 Invalid code`, {
-        duration: 5000,
-        backgroundColor: '#FFCCCC',
-        textColor: 'black'
-      });
+      SnackBar.show(`😕 Invalid code`, 'error')
       return false;
     }
     return true;
