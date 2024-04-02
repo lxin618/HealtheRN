@@ -29,7 +29,7 @@ export const Verified = ({navigation, route}: any) => {
         <Button
             style={{marginTop: 20}}
             buttonText="Continue"
-            onPress={() => {}}
+            onPress={() => navigation.navigate('Register')}
         />
       </View>
     </SafeAreaView>

@@ -1,16 +1,14 @@
 import {Image, View} from 'react-native';
 import BaseText from './BaseText';
-import phone from '../../assets/images/phone.png';
-import email from '../../assets/images/email.png';
-import logo from '../../assets/images/logo.png';
 
 type Props = {
   heading: string;
   icon?: string;
+  noIcon?: boolean;
 };
 
 const Header = (props: Props) => {
-  const {heading, icon = 'logo'} = props;
+  const {heading, icon, noIcon} = props;
   const HEADER_IMAGES = {
     logo: {
       uri: require('../../assets/images/logo_heading.png')
@@ -26,7 +24,7 @@ const Header = (props: Props) => {
     }
   }
 
-  let headerIcon
+  var headerIcon
   if (icon == 'phone') {
     headerIcon = HEADER_IMAGES.phone.uri
   }
@@ -42,7 +40,7 @@ const Header = (props: Props) => {
 
   return (
     <View className="flex flex-wrap flex-row">
-      {icon && (
+      {!noIcon && (
         <Image
           style={{
             position: 'absolute',
@@ -54,10 +52,9 @@ const Header = (props: Props) => {
           source={headerIcon}
         />
       )}
-
       <BaseText
         style={{width: 300}}
-        className="text-4xl font-bold text-[#070651]">
+        className="text-3xl font-bold text-[#070651]">
         {heading}
       </BaseText>
     </View>
