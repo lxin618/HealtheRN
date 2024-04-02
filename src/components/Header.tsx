@@ -53,7 +53,7 @@ const Header = (props: Props) => {
         />
       )}
       <BaseText
-        style={{width: 300}}
+        style={{width: 250}}
         className="text-3xl font-bold text-[#070651]">
         {heading}
       </BaseText>

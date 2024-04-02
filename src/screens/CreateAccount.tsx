@@ -97,7 +97,7 @@ export const CreateAccount = ({navigation}: any) => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
+    <SafeAreaView className="h-full bg-white">
       <Icon
         name="chevron-back-outline"
         onPress={() => navigation.goBack()}
@@ -177,7 +177,7 @@ export const CreateAccount = ({navigation}: any) => {
         </View>
         <Animated.View
           entering={FadeInDown.delay(50).duration(500).springify()}
-          className="flex-row justify-center h-full mt-20 pb-50">
+          className="flex-row justify-center mt-28">
           <BaseText className="text-[#171B4B]">
             Already have an account?{' '}
           </BaseText>

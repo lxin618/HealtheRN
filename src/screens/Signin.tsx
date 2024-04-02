@@ -60,11 +60,7 @@ export const Signin = ({navigation}: any) => {
     } else {
       value = email;
     }
-    const res = await signin(
-        type,
-        value, 
-        password
-    );
+    const res = await signin(type, value, password);
     // if (res) {
     //   navigation.navigate('Verify', {
     //     otp: res.otp,
@@ -90,18 +86,17 @@ export const Signin = ({navigation}: any) => {
 
   const onChangePassword = (pass: string) => {
     if (pass.length < 6) {
-        setPasswordValidError('Password must be at least 6 characters');
-        return
+      setPasswordValidError('Password must be at least 6 characters');
+      return;
     }
     if (pass.search(/[a-z]/i) < 0) {
-        setPasswordValidError('Password must contain at least one letter');
-        return
+      setPasswordValidError('Password must contain at least one letter');
+      return;
+    } else {
+      setPasswordValidError('');
+      setPassword(pass);
     }
-    else {
-        setPasswordValidError('');
-        setPassword(pass)
-    }
-  }
+  };
 
   const disabledButton = () => {
     if (screen == 'phone') {
@@ -119,7 +114,7 @@ export const Signin = ({navigation}: any) => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
+    <SafeAreaView className="bg-white h-full">
       <Icon
         name="chevron-back-outline"
         onPress={() => navigation.goBack()}
@@ -131,89 +126,84 @@ export const Signin = ({navigation}: any) => {
           visible={loading || googleSigninLoading}
           overlayColor={'rgba(0, 0, 0, 0.40)'}
         />
-        <Animated.View entering={FadeInDown.delay(50).duration(500).springify()}>
-            <Header heading={'Login to your account'} />
-        </Animated.View>
         <Animated.View
-          entering={FadeInDown.delay(50).duration(500).springify()}
-          className="pt-6 pb-1">
-          {screen == 'phone' && (
-            <>
-              <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText>
-              <PhoneInput
-                ref={phoneInput}
-                defaultValue={phoneNumber}
-                containerStyle={style.textInput}
-                defaultCode="NZ"
-                layout="first"
-                onChangeText={number => onChangeNumber(number)}
-                disableArrowIcon
-                countryPickerProps={{
-                  countryCodes: ['NZ'],
-                }}
-                autoFocus
-              />
-            </>
-          )}
-          {screen == 'email' && (
-            <>
-              <BaseText className="pl-1 pb-2 text-[#171B4B]">Email</BaseText>
-              <TextInput
-                style={style.emailInput}
-                autoFocus
-                defaultValue={email}
-                placeholder="Enter your email"
-                onChangeText={text => onChangeEmail(text)}
-              />
-            </>
-          )}
-          {numberValidError && (
-            <BaseText className="pt-2 pl-2 text-red-500">
-              {numberValidError}
+          entering={FadeInDown.delay(50).duration(500).springify()}>
+          <Header heading={'Login to your account'} />
+          <View className="pt-6 pb-1">
+            {screen == 'phone' && (
+              <>
+                <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText>
+                <PhoneInput
+                  ref={phoneInput}
+                  defaultValue={phoneNumber}
+                  containerStyle={style.textInput}
+                  defaultCode="NZ"
+                  layout="first"
+                  onChangeText={number => onChangeNumber(number)}
+                  disableArrowIcon
+                  countryPickerProps={{
+                    countryCodes: ['NZ'],
+                  }}
+                  autoFocus
+                />
+              </>
+            )}
+            {screen == 'email' && (
+              <>
+                <BaseText className="pl-1 pb-2 text-[#171B4B]">Email</BaseText>
+                <TextInput
+                  style={style.emailInput}
+                  autoFocus
+                  defaultValue={email}
+                  placeholder="Enter your email"
+                  onChangeText={text => onChangeEmail(text)}
+                />
+              </>
+            )}
+            {numberValidError && (
+              <BaseText className="pt-2 pl-2 text-red-500">
+                {numberValidError}
+              </BaseText>
+            )}
+            <BaseText className="pl-1 pt-3 pb-2 text-[#171B4B]">
+              Password
             </BaseText>
-          )}
-        <BaseText className="pl-1 pt-3 pb-2 text-[#171B4B]">
-            Password
-        </BaseText>
-        <View
-            style={{
+            <View
+              style={{
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
-            }}
-            >
-            <TextInput
+              }}>
+              <TextInput
                 secureTextEntry={passwordVisible ? false : true}
                 style={style.emailInput}
-                returnKeyType='go'
+                returnKeyType="go"
                 defaultValue={password}
                 placeholder="Enter your password"
                 onChangeText={text => onChangePassword(text)}
-            />
-            <Icon
+              />
+              <Icon
                 style={{position: 'absolute', right: 20}}
                 name={passwordVisible ? 'eye' : 'eye-off-sharp'}
-                color='#8B8DA5'
+                color="#8B8DA5"
                 size={24}
                 onPress={() => setPasswordVisible(!passwordVisible)}
-            />
-          </View>
-          {passwordValidError && (
-            <BaseText className="pt-2 pl-2 text-red-500">
-              {passwordValidError}
-            </BaseText>
-          )}
-          <TouchableOpacity className="w-1/2 mx-auto" onPress={() => {}}>
-            <View className="pt-4 justify-center items-center">
-              <BaseText className="text-[#0076FF] text-base">
-                Forgot password?
-              </BaseText>
+              />
             </View>
-          </TouchableOpacity>
-        </Animated.View>
-        <Animated.View
-          entering={FadeInDown.delay(100).duration(500).springify()}>
+            {passwordValidError && (
+              <BaseText className="pt-2 pl-2 text-red-500">
+                {passwordValidError}
+              </BaseText>
+            )}
+            <TouchableOpacity className="w-1/2 mx-auto" onPress={() => {}}>
+              <View className="pt-4 justify-center items-center">
+                <BaseText className="text-[#0076FF] text-base">
+                  Forgot password?
+                </BaseText>
+              </View>
+            </TouchableOpacity>
+          </View>
           <Button
             disabled={disabledButton()}
             buttonText="Continue"
@@ -245,7 +235,7 @@ export const Signin = ({navigation}: any) => {
               size={32}
             />
           </View>
-          <View className="flex-row justify-center h-full mt-10 pb-50">
+          <View className="flex-row justify-center mt-12">
             <BaseText className="text-[#171B4B]">New to HealthE? </BaseText>
             <TouchableOpacity
               onPress={() => navigation.navigate('CreateAccount')}>

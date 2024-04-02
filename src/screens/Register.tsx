@@ -7,7 +7,7 @@ import BaseText from '../components/BaseText';
 
 export const Register = () => {
     return (
-        <SafeAreaView className="h-full">
+        <SafeAreaView className="bg-white h-full">
             <ScrollView className="container mx-auto px-4 pt-12 pl-6">
             <Animated.View 
                 entering={FadeInDown.delay(50).duration(500).springify()}
@@ -29,7 +29,6 @@ export const Register = () => {
                         Account set up
                     </BaseText>
                 </View>
-                
                 
             </Animated.View>
             </ScrollView>

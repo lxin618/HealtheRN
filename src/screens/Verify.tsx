@@ -62,7 +62,7 @@ export const Verify = ({navigation, route}: any) => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
+    <SafeAreaView className="bg-white h-full">
       <Icon
         name="chevron-back-outline"
         onPress={() => navigation.goBack()}

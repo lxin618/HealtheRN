@@ -7,7 +7,7 @@ import Button from '../components/Button';
 export const Verified = ({navigation, route}: any) => {
   const {type} = route.params;
   return (
-    <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
+    <SafeAreaView className="bg-white h-full">
       <Icon
         name="chevron-back-outline"
         onPress={() => navigation.goBack()}

@@ -10,7 +10,7 @@ import Button from '../components/Button';
 
 export const Disclaimer = ({navigation}: any) => {
   return (
-    <SafeAreaView className="h-full">
+    <SafeAreaView className="bg-white h-full">
       <Icon
         name="chevron-back-outline"
         onPress={() => navigation.goBack()}
