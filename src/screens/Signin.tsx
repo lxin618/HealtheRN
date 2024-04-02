@@ -55,7 +55,8 @@ export const Signin = ({navigation}: any) => {
     setLoading(true);
     let value;
     if (type == 'phone') {
-      value = phoneNumber;
+      const countryCode = phoneInput.current?.getCallingCode();
+      value = '+' + countryCode + phoneNumber;
     } else {
       value = email;
     }
@@ -145,7 +146,7 @@ export const Signin = ({navigation}: any) => {
                 containerStyle={style.textInput}
                 defaultCode="NZ"
                 layout="first"
-                onChangeFormattedText={number => onChangeNumber(number)}
+                onChangeText={number => onChangeNumber(number)}
                 disableArrowIcon
                 countryPickerProps={{
                   countryCodes: ['NZ'],
