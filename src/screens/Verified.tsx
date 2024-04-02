@@ -10,7 +10,7 @@ export const Verified = ({navigation, route}: any) => {
     <SafeAreaView style={{backgroundColor: 'white'}} className="h-full">
       <Icon
         name="chevron-back-outline"
-        onPress={() => navigation.navigate('CreateAccount')}
+        onPress={() => navigation.goBack()}
         style={{top: 20, padding: 15}}
         size={32}
       />
