@@ -121,7 +121,7 @@ export const Signin = ({navigation}: any) => {
         style={{top: 20, padding: 15}}
         size={32}
       />
-      <ScrollView className="container mx-auto px-4 pt-12 pl-6">
+      <ScrollView className="container mx-auto px-4 pt-12 pl-6 pr-6">
         <Spinner
           visible={loading || googleSigninLoading}
           overlayColor={'rgba(0, 0, 0, 0.40)'}
@@ -170,7 +170,6 @@ export const Signin = ({navigation}: any) => {
             </BaseText>
             <View
               style={{
-                position: 'relative',
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',

@@ -14,7 +14,7 @@ export const Verified = ({navigation, route}: any) => {
         style={{top: 20, padding: 15}}
         size={32}
       />
-      <View className="container mx-auto px-4 pt-12 pl-6">
+      <View className="container mx-auto px-4 pt-12 pl-6 pr-6">
         <Header
           icon={'check'}
           heading={`We verified your ${

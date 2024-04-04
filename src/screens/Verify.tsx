@@ -69,7 +69,7 @@ export const Verify = ({navigation, route}: any) => {
         style={{top: 20, padding: 15}}
         size={32}
       />
-      <View className="container mx-auto px-4 pt-12 pl-6">
+      <View className="container mx-auto px-4 pt-12 pl-6 pr-6">
         <Header icon={type} heading={`Verify your ${type == 'phone' ? 'phone number' : 'email'}`} />
         <BaseText className="pt-8 text-base">
           Please enter the 4 digit code sent to {value}

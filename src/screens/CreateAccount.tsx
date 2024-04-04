@@ -104,7 +104,7 @@ export const CreateAccount = ({navigation}: any) => {
         style={{top: 20, padding: 15}}
         size={32}
       />
-      <ScrollView className="container mx-auto px-4 pt-12 pl-6">
+      <ScrollView className="container mx-auto px-4 pt-12 pl-6 pr-6">
         <Spinner visible={loading || googleSigninLoading} overlayColor={'rgba(0, 0, 0, 0.40)'} />
         <Header heading={'Create an account'} />
         <View className="pt-10 pb-4">
@@ -140,7 +140,7 @@ export const CreateAccount = ({navigation}: any) => {
           )}
           {numberValidError && (
             <BaseText className="pt-2 pl-2 text-red-500">
-              {numberValidError}
+			  {numberValidError}
             </BaseText>
           )}
         </View>

@@ -17,7 +17,7 @@ export const Disclaimer = ({navigation}: any) => {
         style={{top: 20, padding: 15}}
         size={32}
       />
-      <View className="container mx-auto px-4 pt-12 pl-6">
+      <View className="container mx-auto px-4 pt-12 pl-6 pr-6">
         <Header heading={'Disclaimer'} />
         <BaseText className="leading-6 pt-6 text-md text-[#515185]">
           This self-assessment tool is designed to provide general information
