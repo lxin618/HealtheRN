@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, TextInput, View } from 'react-native';
+import { Button, SafeAreaView, ScrollView, TextInput, View } from 'react-native';
 import * as Progress from 'react-native-progress';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import Header from '../components/Header';
@@ -8,21 +8,34 @@ import { useRegister } from '../hooks/useRegister';
 import { useRef, useState } from 'react';
 import PhoneInput from 'react-native-phone-number-input';
 import { Controller } from 'react-hook-form';
+import DatePicker from 'react-native-date-picker'
+import MaskInput, { Masks } from 'react-native-mask-input';
 
 export const Register = () => {
 
+    const [date, setDate] = useState(new Date())
+    const [openCalendar, setOpenCalendar] = useState(false)
     const [passwordVisible, setPasswordVisible] = useState(false);
     const phoneInput = useRef<PhoneInput>(null);
 
     // hooks
     const {
         data: {control, errors, isValid},
-        operations: {handleSubmit, onPressSend},
+        operations: {handleSubmit, onPressSend, setValue},
     } = useRegister(phoneInput);
+
+    const setBrithdayFromCalendar = (date: Date) => {
+        setValue('birthday', date.toISOString().split('T')[0].split('-').reverse().join('/'), {
+            shouldValidate: true,
+            shouldDirty: true
+        })
+        // console.log(date.toISOString().split('T')[0].split('-').reverse().join('/'))
+        setOpenCalendar(false)
+    }
 
     return (
         <SafeAreaView className="bg-white h-full">
-            <ScrollView className="container mx-auto px-4 pt-12 pl-6 pr-6">
+            <ScrollView className="container mx-auto px-4 pt-5 pl-6 pr-6">
             <Animated.View 
                 entering={FadeInDown.delay(50).duration(500).springify()}
                 >
@@ -36,14 +49,14 @@ export const Register = () => {
                     height={4}
                     />
                 <Header heading={'Finish sign up'} noIcon/>
-                <View className="flex flex-row mt-7">
+                <View className="flex flex-row mt-6">
                     <Icon name="settings-outline" size={23} />
                     <BaseText 
                         className='text-sm ml-2 font-bold text-[#070651]'>
                         Account set up
                     </BaseText>
                 </View>
-                <BaseText className="pt-8 pl-1 pb-2 text-[#171B4B]">First Name*</BaseText>
+                <BaseText className="pt-6 pl-1 pb-2 text-[#171B4B]">First Name*</BaseText>
                 <Controller
                     control={control}
                     rules={{
@@ -62,7 +75,8 @@ export const Register = () => {
                     )}
                     name="firstName"
                     />
-                <BaseText className="pt-4 pl-1 pb-2 text-[#171B4B]">Last Name*</BaseText>
+                {errors.firstName && <BaseText className="pt-2 pl-2 text-red-500">{errors.firstName.message}</BaseText>}
+                <BaseText className="pt-3 pl-1 pb-2 text-[#171B4B]">Last Name*</BaseText>
                 <Controller
                     control={control}
                     rules={{
@@ -81,7 +95,8 @@ export const Register = () => {
                     )}
                     name="lastName"
                     />
-                <BaseText className="pt-4 pl-1 pb-2 text-[#171B4B]">Email Address*</BaseText>
+                {errors.lastName && <BaseText className="pt-2 pl-2 text-red-500">{errors.lastName.message}</BaseText>}
+                <BaseText className="pt-3 pl-1 pb-2 text-[#171B4B]">Email Address*</BaseText>
                 <Controller
                     control={control}
                     rules={{
@@ -100,7 +115,8 @@ export const Register = () => {
                     )}
                     name="email"
                     />
-                <BaseText className="pt-4 pl-1 pb-2 text-[#171B4B]">Mobile Number*</BaseText>
+                {errors.email && <BaseText className="pt-2 pl-2 text-red-500">{errors.email.message}</BaseText>}
+                <BaseText className="pt-3 pl-1 pb-2 text-[#171B4B]">Mobile Number*</BaseText>
                 <Controller
                     control={control}
                     rules={{
@@ -117,7 +133,7 @@ export const Register = () => {
                             }}
                             defaultCode="NZ"
                             layout="first"
-                            onChangeText={number => onChange(number)}
+                            onChangeText={onChange}
                             disableArrowIcon
                             countryPickerProps={{
                                 countryCodes: ['NZ'],
@@ -127,7 +143,45 @@ export const Register = () => {
                     )}
                     name="phone"
                     />
-                <BaseText className="pt-4 pl-1 pb-2 text-[#171B4B]">Password*</BaseText>
+                {errors.phone && <BaseText className="pt-2 pl-2 text-red-500">{errors.phone.message}</BaseText>}
+                <BaseText className="pt-3 pl-1 pb-2 text-[#171B4B]">Birthday*</BaseText>
+                <Controller
+                    control={control}
+                    rules={{
+                        required: true,
+                    }}
+                    render={({field: {onChange, value}}) => (
+                        <View className='flex flex-row align-center'>
+                            <MaskInput
+                                className='text-base p-4 pb-5 bg-[#F7F7F8] rounded-lg w-full'
+                                value={value}
+                                placeholderTextColor={'#8B8DA5'}
+                                placeholder="dd/mm/yyyy"
+                                onChangeText={onChange}
+                                mask={Masks.DATE_DDMMYYYY}
+                                />
+                            <Icon
+                                style={{position: 'absolute', top:15, right: 20}}
+                                name={'calendar-clear-outline'}
+                                color="#8B8DA5"
+                                size={24}
+                                onPress={() => setOpenCalendar(true)} />
+                        </View>
+                    )}
+                    name="birthday"
+                    />
+                    {errors.birthday && <BaseText className="pt-2 pl-2 text-red-500">{errors.birthday.message}</BaseText>}
+                    <DatePicker
+                        mode="date"
+                        modal
+                        open={openCalendar}
+                        date={date}
+                        onConfirm={(date) => setBrithdayFromCalendar(date)}
+                        onCancel={() => {
+                            setOpenCalendar(false)
+                        }}
+                    />
+                <BaseText className="pt-3 pl-1 pb-2 text-[#171B4B]">Password*</BaseText>
                 <Controller
                     control={control}
                     rules={{
@@ -152,6 +206,7 @@ export const Register = () => {
                     )}
                     name="password"
                     />
+                {errors.password && <BaseText className="pt-2 pl-2 text-red-500">{errors.password.message}</BaseText>}
             </Animated.View>
             </ScrollView>
         </SafeAreaView>

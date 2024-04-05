@@ -37,6 +37,7 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>) => {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: {errors, isValid, isSubmitting},
   } = useForm<SignupFormData>({
     mode: 'onChange',
@@ -68,6 +69,7 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>) => {
     operations: {
       handleSubmit,
       onPressSend,
+      setValue,
       // updatePhoneNumber,
     },
   };
