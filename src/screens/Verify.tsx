@@ -57,7 +57,7 @@ export const Verify = ({navigation, route}: any) => {
 
     if (success) {
       stopTimer();
-      navigation.navigate('Verified', {type: type});
+      navigation.navigate('Verified', {type: type, value: value});
     }
   };
 

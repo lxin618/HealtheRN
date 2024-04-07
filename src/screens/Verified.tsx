@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
 
 export const Verified = ({navigation, route}: any) => {
-  const {type} = route.params;
+  const {type, value} = route.params;
   return (
     <SafeAreaView className="bg-white h-full">
       <Icon
@@ -29,7 +29,7 @@ export const Verified = ({navigation, route}: any) => {
         <Button
             style={{marginTop: 20}}
             buttonText="Continue"
-            onPress={() => navigation.navigate('Register')}
+            onPress={() => navigation.navigate('Register', {type: type, value: value})}
         />
       </View>
     </SafeAreaView>
