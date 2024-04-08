@@ -7,10 +7,11 @@ import {
   GoogleAuthProvider,
   signInWithCredential,
 } from 'firebase/auth';
-import {auth} from '../services/firebase';
+import {auth} from '../services/Firebase';
 import {API_URL} from '../../env/env.json';
 import { useState } from 'react';
 import { SnackBar } from '../utils/Toast';
+import { Keyboard } from 'react-native';
 
 export const useGoogleAuth = () => {
 
@@ -24,6 +25,7 @@ export const useGoogleAuth = () => {
   });
 
   const signIn = async () => {
+    Keyboard.dismiss();
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();

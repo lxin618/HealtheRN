@@ -1,8 +1,10 @@
 import Toast from 'react-native-root-toast';
 import {API_URL} from '../../env/env.json';
 import {SnackBar} from '../utils/Toast';
+import {Keyboard} from 'react-native';
 
 export const useSignin = () => {
+  Keyboard.dismiss();
   const signin = async (
     type: string,
     value: string,

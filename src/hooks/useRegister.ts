@@ -3,11 +3,14 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {Keyboard} from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
-import { RefObject } from 'react';
+import {RefObject} from 'react';
 import {API_URL} from '../../env/env.json';
-import { SnackBar } from '../utils/Toast';
-// import * as Keychain from 'react-native-keychain';
-
+import {SnackBar} from '../utils/Toast';
+import * as Keychain from 'react-native-keychain';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { authKeychainService } from '../services/Keychain';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 interface SignupFormData {
   firstName: string;
   lastName: string;
@@ -17,7 +20,12 @@ interface SignupFormData {
   birthday: string;
 }
 
-export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, value: string) => {
+export const useRegister = (
+  phoneInput: RefObject<PhoneInput>,
+  type: string,
+  value: string,
+) => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const schema = yup.object().shape({
     email: yup
       .string()
@@ -31,16 +39,19 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, val
     firstName: yup.string().required('First name is required'),
     lastName: yup.string().required('Last Name is required'),
     // needs to be at least 16 years old
-    birthday: yup.string()
-        .required('Birthday is required')
-        .test('valid-phone-number', 'You must be at least 16 years old', text => {
-            const date = text.split("/")
-            if (date.length === 3 && date[2].length === 4) {
-                return new Date().getFullYear() - Number(date[2]) >= 16;
-            }
-            return false;
-        }),
-    phone: yup.string().required('Phone number is required')
+    birthday: yup
+      .string()
+      .required('Birthday is required')
+      .test('valid-phone-number', 'You must be at least 16 years old', text => {
+        const date = text.split('/');
+        if (date.length === 3 && date[2].length === 4) {
+          return new Date().getFullYear() - Number(date[2]) >= 16;
+        }
+        return false;
+      }),
+    phone: yup
+      .string()
+      .required('Phone number is required')
       .test('valid-phone-number', 'Phone number is not valid', text => {
         return phoneInput.current?.isValidNumber(text);
       }),
@@ -56,11 +67,11 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, val
     mode: 'onChange',
     resolver: yupResolver(schema),
     defaultValues: {
-      email: (type == 'email' ? value : ''),
+      email: type == 'email' ? value : '',
       password: '',
       firstName: '',
       lastName: '',
-      phone: (type == 'phone' ? value.substring(3) : ''),
+      phone: type == 'phone' ? value.substring(3) : '',
       birthday: '',
     },
   });
@@ -78,11 +89,13 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, val
         SnackBar.show(`😕 ${res}`, 'error');
         return null;
       } else {
-        // save tokens in keychain
         const {accessToken, refreshToken} = res;
-        // await Keychain.setGenericPassword('accessToken', accessToken);
-        // await Keychain.setGenericPassword('refreshToken', refreshToken);
-        
+        // save tokens in keychain
+        await Keychain.setGenericPassword('token', accessToken, {
+            service: authKeychainService,
+        })
+        await AsyncStorage.setItem('refreshToken', refreshToken);
+        navigation.navigate('AccountSetup');
       }
     } catch (error) {
       SnackBar.show(
@@ -98,6 +111,7 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, val
       control,
       errors,
       isValid,
+      isSubmitting,
     },
     operations: {
       handleSubmit,

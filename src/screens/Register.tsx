@@ -11,6 +11,7 @@ import { Controller } from 'react-hook-form';
 import DatePicker from 'react-native-date-picker'
 import MaskInput, { Masks } from 'react-native-mask-input';
 import Button from '../components/Button';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
 
 export const Register = ({navigation, route}: any) => {
 
@@ -22,7 +23,7 @@ export const Register = ({navigation, route}: any) => {
     const phoneInput = useRef<PhoneInput>(null);
     // hooks
     const {
-        data: {control, errors, isValid},
+        data: {control, errors, isValid, isSubmitting},
         operations: {handleSubmit, onPressSend, setValue, getValues},
     } = useRegister(phoneInput, type, value);
 
@@ -42,6 +43,7 @@ export const Register = ({navigation, route}: any) => {
     return (
         <SafeAreaView className="bg-white h-full">
             <ScrollView className="container mx-auto px-4 pt-4 pl-6 pr-6">
+            <Spinner visible={isSubmitting} overlayColor={'rgba(0, 0, 0, 0.40)'} />
             <Animated.View 
                 entering={FadeInDown.delay(50).duration(500).springify()}
                 >

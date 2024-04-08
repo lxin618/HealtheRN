@@ -18,7 +18,6 @@ import PhoneInput from 'react-native-phone-number-input';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {useVerfiyNumber} from '../hooks/useVerifyNumber';
 import {useGoogleAuth} from '../hooks/useGoogleAuth';
-import Toast from 'react-native-root-toast';
 
 type OTOPType = 'phone' | 'email';
 
