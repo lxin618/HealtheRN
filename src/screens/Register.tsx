@@ -50,7 +50,7 @@ export const Register = ({navigation, route}: any) => {
                 <Progress.Bar 
                     className="mb-8"
                     borderWidth={0} 
-                    progress={0.3} 
+                    progress={0.25} 
                     width={null}
                     unfilledColor="#E6E6EE"
                     borderRadius={0}

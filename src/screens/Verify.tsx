@@ -5,6 +5,7 @@ import {OtpInput} from 'react-native-otp-entry';
 import BaseText from '../components/BaseText';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {useVerfiyNumber} from '../hooks/useVerifyNumber';
+import Button from '../components/Button';
 
 export const Verify = ({navigation, route}: any) => {
   const {otp, value, expiry, type} = route.params;
@@ -94,12 +95,13 @@ export const Verify = ({navigation, route}: any) => {
           className='w-1/2 mx-auto'
           disabled={resendOTP}
           onPress={() => ResendOtp()}>
-          <View className="pt-6 pb-4 justify-center items-center">
+          <View className="pt-2 pb-4 justify-center items-center">
             <BaseText className="text-[#0076FF] text-base">
               {resendOTP ? `Resend code in ${counter}` : 'Resend code'}
             </BaseText>
           </View>
         </TouchableOpacity>
+        <Button buttonText='Verify' onPress={() => {}} />
       </View>
     </SafeAreaView>
   );

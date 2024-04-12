@@ -27,6 +27,7 @@
     "react-hook-form": "^7.51.2",
     "react-native": "0.73.5",
     "react-native-date-picker": "^5.0.0",
+    "react-native-element-dropdown": "^2.10.4",
     "react-native-gesture-handler": "^2.15.0",
     "react-native-keychain": "8.1.2",
     "react-native-loading-spinner-overlay": "^3.0.1",
