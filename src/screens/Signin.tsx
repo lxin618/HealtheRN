@@ -20,6 +20,17 @@ import {useVerfiyNumber, useGoogleAuth, useSignin} from '../hooks';
 
 type OTOPType = 'phone' | 'email';
 
+// const emailInput = (email: string, onChangeEmail: (text: string) => void) => {
+//   return (
+//   <><BaseText className="pl-1 pb-2 text-[#171B4B]">Email</BaseText><TextInput
+//       key={2}
+//       style={style.emailInput}
+//       defaultValue={email}
+//       placeholder="Enter your email"
+//       onChangeText={text => onChangeEmail(text)} /></>)
+// }
+
+
 export const Signin = ({navigation}: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
@@ -69,6 +80,7 @@ export const Signin = ({navigation}: any) => {
     //     type,
     //   });
     // }
+    console.log('logined now', res)
     setLoading(false);
   };
 
@@ -134,6 +146,7 @@ export const Signin = ({navigation}: any) => {
               <>
                 <BaseText className="pl-1 pb-2 text-[#171B4B]">Phone</BaseText>
                 <PhoneInput
+                  key={1}
                   ref={phoneInput}
                   defaultValue={phoneNumber}
                   containerStyle={style.textInput}
@@ -144,7 +157,6 @@ export const Signin = ({navigation}: any) => {
                   countryPickerProps={{
                     countryCodes: ['NZ'],
                   }}
-                  autoFocus
                 />
               </>
             )}
@@ -212,7 +224,7 @@ export const Signin = ({navigation}: any) => {
             icon={screen == 'email' ? 'cellphone' : 'email-outline'}
             iconStyle={style.icon}
             style={style.emailBtn}
-            textStyle={style.textStyle as StyleProp<ViewStyle>}
+            textStyle={style.textStyle}
             buttonText={
               screen == 'email' ? 'Continue with phone' : 'Continue with email'
             }

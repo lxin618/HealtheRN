@@ -1,4 +1,4 @@
-import { Pressable, SafeAreaView, ScrollView, StyleSheet, TextInput, View } from "react-native"
+import { Pressable, Button, SafeAreaView, ScrollView, StyleSheet, TextInput, View } from "react-native"
 import Spinner from "react-native-loading-spinner-overlay/lib"
 import Animated, { FadeInDown } from "react-native-reanimated"
 import * as Progress from 'react-native-progress';
@@ -9,16 +9,18 @@ import { useAccountSetup } from "../hooks";
 import { Controller } from "react-hook-form";
 import { Dropdown } from 'react-native-element-dropdown';
 import { useState } from "react";
+import { ButtonSmall } from "../components/Button";
 
-export const AccountSetup = () => {
-    const {
-        data: {control, errors, isValid, isSubmitting},
-        operations: {handleSubmit, onPressSend, setValue, getValues},
-    } = useAccountSetup();
+export const AccountSetup = ({navigation}: any) => {
 
     const [gender, setGender] = useState('Male');
     const [isFocusDropdown, setIsFocusDropdown] = useState(false);
     const [isFocusInput, setIsFocusInput] = useState('');
+
+    const {
+        data: {control, errors, isValid, isSubmitting},
+        operations: {handleSubmit, onPressSend},
+    } = useAccountSetup(gender);
 
     const ethnicityData = [
         { label: 'European', value: 'european' },
@@ -146,8 +148,22 @@ export const AccountSetup = () => {
                     </View>
                 </Animated.View>
             </ScrollView>
+            <View className="flex-row justify-around">
+                <ButtonSmall
+                    style={{left: 0, backgroundColor: '#F7F7F8'}}
+                    buttonText="Back"
+                    textStyle={{color: '#070651'}}
+                    onPress={() => navigation.goBack()}
+                />
+                <ButtonSmall
+                    style={{right: 0, backgroundColor: '#070651'}}
+                    textStyle={{color: '#fff'}}
+                    disabled={!isValid || isSubmitting}
+                    buttonText="Next"
+                    onPress={handleSubmit(onPressSend)}
+                />
+            </View>
         </SafeAreaView>
-
     )
 }
 

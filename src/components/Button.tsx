@@ -8,11 +8,12 @@ import {
 import BaseText from './BaseText';
 import Animated, {FadeIn} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { CSSProperties } from 'react';
 
 interface Props {
   buttonText: string;
   style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<ViewStyle>;
+  textStyle?: CSSProperties;
   iconStyle?: StyleProp<ViewStyle>;
   icon?: string;
   disabled?: boolean;
@@ -35,9 +36,26 @@ const Button = (props: Props) => {
           </BaseText>
       </Animated.View>
     </TouchableOpacity>
-
   );
 };
+
+export const ButtonSmall = (props: Props) => {
+  const {buttonText, style, textStyle, onPress, disabled} = props;
+  return (
+    <TouchableOpacity style={disabled ? {opacity:0.5} : {opacity:1}} disabled={disabled} onPress={onPress}>
+      <Animated.View
+        entering={FadeIn.delay(50).duration(50).springify()}
+        style={[styles.btnSmall, style]}
+        >
+          <BaseText
+            style={textStyle}
+            className="text-lg font-medium text-center">
+            {buttonText}
+          </BaseText>
+      </Animated.View>
+    </TouchableOpacity>
+  );
+}
 
 const styles = StyleSheet.create({
   btn: {
@@ -50,6 +68,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: '100%',
     right: 3
+  },
+  btnSmall: {
+    bottom: 50,
+    backgroundColor: '#0076FF',
+    borderRadius: 100,
+    paddingLeft: 50,
+    paddingRight: 50,
+    paddingTop: 15,
+    paddingBottom: 15,
+    textAlign: 'center',
+    width: '100%',
   },
 });
 

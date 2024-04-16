@@ -6,10 +6,9 @@ import PhoneInput from 'react-native-phone-number-input';
 import {RefObject} from 'react';
 import {API_URL} from '../../env/env.json';
 import {SnackBar} from '../utils/Toast';
-import * as Keychain from 'react-native-keychain';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import { authKeychainService } from '../services/Keychain';
+import { authKeychainService, setGenericPassword } from '../services/Keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 interface SignupFormData {
   firstName: string;
@@ -91,7 +90,7 @@ export const useRegister = (
       } else {
         const {accessToken, refreshToken} = res;
         // save tokens in keychain
-        await Keychain.setGenericPassword('token', accessToken, {
+        await setGenericPassword('token', accessToken, {
             service: authKeychainService,
         })
         await AsyncStorage.setItem('refreshToken', refreshToken);

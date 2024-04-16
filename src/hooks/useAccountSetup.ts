@@ -19,9 +19,7 @@ interface SetupFormData {
 }
 
 export const useAccountSetup = (
-//   phoneInput: RefObject<PhoneInput>,
-//   type: string,
-//   value: string,
+  gender: string,
 ) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const schema = yup.object().shape({
@@ -47,6 +45,7 @@ export const useAccountSetup = (
   });
   const onPressSend = async (formData: SetupFormData) => {
     Keyboard.dismiss();
+    console.log(formData, gender)
     // try {
     //   const response = await fetch(`${API_URL}/api/auth/register`, {
     //     method: 'POST',

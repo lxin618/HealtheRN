@@ -4,12 +4,12 @@ import {SnackBar} from '../utils/Toast';
 import {Keyboard} from 'react-native';
 
 export const useSignin = () => {
-  Keyboard.dismiss();
   const signin = async (
     type: string,
     value: string,
     password: string,
   ): Promise<null | {token: string}> => {
+    Keyboard.dismiss();
     if (!value || !password) {
       return null;
     }
@@ -26,7 +26,7 @@ export const useSignin = () => {
         SnackBar.show(`😕 ${res}`, 'error');
         return null;
       } else {
-        return {token: res.token};
+        return res;
       }
     } catch (error) {
       SnackBar.show(

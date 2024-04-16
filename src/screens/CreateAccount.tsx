@@ -139,7 +139,7 @@ export const CreateAccount = ({navigation}: any) => {
           )}
           {numberValidError && (
             <BaseText className="pt-2 pl-2 text-red-500">
-			  {numberValidError}
+			        {numberValidError}
             </BaseText>
           )}
         </View>
@@ -152,7 +152,7 @@ export const CreateAccount = ({navigation}: any) => {
           icon={screen == 'email' ? 'cellphone' : 'email-outline'}
           iconStyle={style.icon}
           style={style.emailBtn}
-          textStyle={style.textStyle as StyleProp<ViewStyle>}
+          textStyle={style.textStyle}
           buttonText={
             screen == 'email' ? 'Continue with phone' : 'Continue with email'
           }
@@ -174,18 +174,16 @@ export const CreateAccount = ({navigation}: any) => {
             size={32}
           />
         </View>
-        <Animated.View
-          entering={FadeInDown.delay(50).duration(500).springify()}
-          className="flex-row justify-center mt-28">
+      </ScrollView>
+      <View
+          className="flex-row justify-center bottom-8">
           <BaseText className="text-[#171B4B]">
             Already have an account?{' '}
           </BaseText>
           <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
             <BaseText className="font-medium text-[#0076FF]">Sign in</BaseText>
           </TouchableOpacity>
-        </Animated.View>
-        <View style={{height: 100}} />
-      </ScrollView>
+        </View>
     </SafeAreaView>
   );
 };
