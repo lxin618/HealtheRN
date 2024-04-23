@@ -1,12 +1,4 @@
-import {
-    Pressable,
-    Button,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    TextInput,
-    View,
-} from 'react-native';
+import { Pressable, SafeAreaView, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import * as Progress from 'react-native-progress';
@@ -55,9 +47,9 @@ export const AccountSetup = ({ navigation }: any) => {
                         height={4}
                     />
                     <Header heading={'Account Setup'} noIcon />
-                    <View className="flex flex-row absolute right-0 top-10">
-                        <Icon name="settings-outline" size={18} />
-                        <BaseText className="text-xs ml-1.5 font-bold text-[#070651]">
+                    <View className="flex flex-row mt-6">
+                        <Icon name="person-circle-outline" size={24} color={'#070651'} />
+                        <BaseText className="text-base ml-3 font-bold text-[#070651]">
                             Personal Info
                         </BaseText>
                     </View>

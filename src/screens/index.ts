@@ -8,4 +8,5 @@ export * from './Verified';
 export * from './Signin';
 export * from './Register';
 export * from './AccountSetup';
-export * from './AccountSetupFinal';
+export * from './HealthBackground';
+export * from './HealthBackgroundStep2';

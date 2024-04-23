@@ -2,50 +2,42 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Keyboard } from 'react-native';
-// import PhoneInput from 'react-native-phone-number-input';
-// import {RefObject} from 'react';
-// import {API_URL} from '../../env/env.json';
-// import {SnackBar} from '../utils/Toast';
-// import * as Keychain from 'react-native-keychain';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-// import { authKeychainService } from '../services/Keychain';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import axiosAuth from '../middleware/axiosAuth';
 
-interface SetupFormData {
-    ethnicity: string;
-    height?: string;
-    weight?: string;
+interface HealthBackgroundData {
+    highCholesterol?: number;
+    diabetes?: number;
+    historicalFamilyDiseases?: number;
 }
 
-export const useAccountSetup = (gender: string) => {
+export const useHealthBackgroundStep2 = (params: any) => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const schema = yup.object().shape({
-        ethnicity: yup.string().required('Ethnicity is required'),
-        height: yup.string(),
-        weight: yup.string(),
+        highCholesterol: yup.number().notRequired().nonNullable(),
+        diabetes: yup.number().notRequired().nonNullable(),
+        historicalFamilyDiseases: yup.number().notRequired().nonNullable(),
     });
-
     const {
         control,
         handleSubmit,
         setValue,
         getValues,
         formState: { errors, isValid, isSubmitting },
-    } = useForm<SetupFormData>({
+    } = useForm<HealthBackgroundData>({
         mode: 'onChange',
         resolver: yupResolver(schema),
         defaultValues: {
-            ethnicity: '',
-            height: '',
-            weight: '',
+            highCholesterol: 2,
+            diabetes: 2,
+            historicalFamilyDiseases: 2,
         },
     });
-    const onPressSend = async (formData: SetupFormData) => {
+    const onPressSend = async (formData: HealthBackgroundData) => {
         Keyboard.dismiss();
+        console.log('asdasdasdasdad', { ...formData, ...params });
         // navigate to the next screen with the data from the form
-        navigation.navigate('HealthBackground', { ...formData, gender });
+        // navigation.navigate('HealthBackgroundStep2', { ...formData });
         // try {
         //   // const response = await axiosAuth(`${API_URL}/api/auth/register`, {
         //   //   method: 'POST',

@@ -12,7 +12,8 @@ import {
     Signin,
     Register,
     AccountSetup,
-    AccountSetupFinal,
+    HealthBackground,
+    HealthBackgroundStep2,
 } from '../screens';
 
 const Stack = createNativeStackNavigator();
@@ -75,9 +76,14 @@ export const AppNavigation = () => {
                         component={AccountSetup}
                     />
                     <Stack.Screen
-                        name="AccountSetupFinal"
+                        name="HealthBackground"
                         options={{ headerShown: false }}
-                        component={AccountSetupFinal}
+                        component={HealthBackground}
+                    />
+                    <Stack.Screen
+                        name="HealthBackgroundStep2"
+                        options={{ headerShown: false }}
+                        component={HealthBackgroundStep2}
                     />
                 </Stack.Navigator>
             )}
