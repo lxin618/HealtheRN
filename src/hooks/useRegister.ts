@@ -3,13 +3,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Keyboard } from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
-import { RefObject } from 'react';
+import { RefObject, useContext } from 'react';
 import { API_URL } from '../../env/env.json';
 import { SnackBar } from '../utils/Toast';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { authKeychainService, setGenericPassword } from '../services/Keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../context/authContext';
 interface SignupFormData {
     firstName: string;
     lastName: string;
@@ -21,6 +22,7 @@ interface SignupFormData {
 
 export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, value: string) => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
+    const { setAccessToken, setCustomer } = useContext(AuthContext);
     const schema = yup.object().shape({
         email: yup
             .string()
@@ -84,13 +86,23 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, val
                 SnackBar.show(`😕 ${res}`, 'error');
                 return null;
             } else {
-                const { accessToken, refreshToken } = res;
-                // save tokens in keychain
-                await setGenericPassword('token', accessToken, {
-                    service: authKeychainService,
-                });
+                const { accessToken, refreshToken, customer } = res;
+                // // save tokens in keychain
+                // await setGenericPassword('token', accessToken, {
+                //     service: authKeychainService,
+                // });
                 await AsyncStorage.setItem('refreshToken', refreshToken);
-                navigation.navigate('AccountSetup');
+                await AsyncStorage.setItem('accessToken', accessToken);
+                // set context
+                setAccessToken(accessToken);
+                console.log(customer);
+                setCustomer(customer);
+                if (customer.accountSetUp) {
+                    navigation.navigate('Home');
+                } else {
+                    // navigate to the next screen
+                    navigation.navigate('AccountSetup');
+                }
             }
         } catch (error) {
             SnackBar.show(`😕 Something has gone wrong, please try again later`, 'error');
