@@ -2,13 +2,13 @@ import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-si
 import Toast from 'react-native-root-toast';
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { auth } from '../services/Firebase';
-import { API_URL } from '../../env/env.json';
 import { useContext, useState } from 'react';
 import { SnackBar } from '../utils/Toast';
 import { Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/authContext';
 import { SignupResponseType } from '../helper/signupResponseType';
+import { API_URL, GOOGLE_WEB_CLIENT_ID } from '@env';
 
 export const useGoogleAuth = () => {
     const [googleSigninLoading, setGoogleSigninLoading] = useState(false);
@@ -16,7 +16,7 @@ export const useGoogleAuth = () => {
 
     GoogleSignin.configure({
         // TODO move the key to .env
-        webClientId: '630196583823-scuinvgqc5oboi8hdkjackgsalm1d1o5.apps.googleusercontent.com', // client ID of type WEB for your server. Required to get the idToken on the user object, and for offline access.
+        webClientId: GOOGLE_WEB_CLIENT_ID, // client ID of type WEB for your server. Required to get the idToken on the user object, and for offline access.
         offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
     });
 

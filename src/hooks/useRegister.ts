@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { Keyboard } from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
 import { RefObject, useContext } from 'react';
-import { API_URL } from '../../env/env.json';
+import { API_URL } from '@env';
 import { SnackBar } from '../utils/Toast';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -95,7 +95,6 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, val
                 await AsyncStorage.setItem('accessToken', accessToken);
                 // set context
                 setAccessToken(accessToken);
-                console.log(customer);
                 setCustomer(customer);
                 if (customer.accountSetUp) {
                     navigation.navigate('Home');

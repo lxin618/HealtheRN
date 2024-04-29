@@ -1,5 +1,4 @@
-import Toast from 'react-native-root-toast';
-import { API_URL } from '../../env/env.json';
+import { API_URL } from '@env';
 import { SnackBar } from '../utils/Toast';
 import { Keyboard } from 'react-native';
 import { useContext } from 'react';
