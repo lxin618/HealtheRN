@@ -92,9 +92,6 @@ export const CreateAccount = ({ navigation }: any) => {
         const res = await signInGoogle();
         if (res?.customer.accountSetUp) {
             navigation.navigate('Home');
-        } else {
-            // navigate to the next screen
-            navigation.navigate('AccountSetup');
         }
     };
 

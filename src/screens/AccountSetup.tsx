@@ -8,13 +8,17 @@ import BaseText from '../components/BaseText';
 import { useAccountSetup } from '../hooks';
 import { Controller } from 'react-hook-form';
 import { Dropdown } from 'react-native-element-dropdown';
-import { useState } from 'react';
-import { ButtonSmall } from '../components/Button';
+import { Children, useRef, useState } from 'react';
+import Button, { ButtonSmall } from '../components/Button';
+import { ModalWrapper } from '../components/Modal';
+import { Modalize } from 'react-native-modalize';
 
 export const AccountSetup = ({ navigation }: any) => {
     const [gender, setGender] = useState('Male');
     const [isFocusDropdown, setIsFocusDropdown] = useState(false);
     const [isFocusInput, setIsFocusInput] = useState('');
+    const [isModalVisible, setModalVisible] = useState(false);
+    const infoModalRef = useRef<Modalize>(null);
 
     const {
         data: { control, errors, isValid, isSubmitting },
@@ -31,6 +35,37 @@ export const AccountSetup = ({ navigation }: any) => {
         { label: 'African', value: 'african' },
         { label: 'Other ethnicity', value: 'others' },
     ];
+
+    const infoModalContent = () => {
+        return (
+            <View style={{ backgroundColor: 'white', height: 350, borderRadius: 20 }}>
+                {/* <BaseText style={style.infoModalHeading}>Sex at birth</BaseText> */}
+                <Header heading={'Sex at birth'} noIcon headerStyle={style.modalHeader} />
+                <View style={{ borderBottomColor: '#E6E6EE', borderBottomWidth: 1 }} />
+                <BaseText style={style.infoModalContent}>
+                    Sex at birth refers to sex assigned at birth. Sex at birth is typically assigned
+                    based on a person's reproductive system and other physical characteristics. Sex
+                    at birth may also be understood as the sex recorded at a person's birth (for
+                    example, what was recorded on their birth certificate)
+                </BaseText>
+            </View>
+        );
+    };
+
+    const hanldeInfoModal = () => {
+        const param = {
+            isVisible: isModalVisible,
+            onClose: () => setModalVisible(false),
+            onSwipeComplete: () => setModalVisible(false),
+            animationIn: 'slideInUp',
+            animationOut: 'slideOutDown',
+            avoidKeyboard: true,
+            swipeDirection: ['down', 'up', 'left', 'right'],
+            propagateSwipe: true,
+            children: infoModalContent(),
+        };
+        return ModalWrapper(param);
+    };
 
     return (
         <SafeAreaView className="bg-white h-full">
@@ -54,9 +89,19 @@ export const AccountSetup = ({ navigation }: any) => {
                         </BaseText>
                     </View>
                     <View>
-                        <BaseText className="leading-6 pt-8 text-md text-[#171B4B]">
-                            What is your sex at birth?*
-                        </BaseText>
+                        <View className="flex flex-row mt-6">
+                            <BaseText className="leading-6 text-md text-[#171B4B]">
+                                What is your sex at birth?*
+                            </BaseText>
+                            <Icon
+                                onPress={() => setModalVisible(true)}
+                                style={style.info}
+                                name="information-circle-outline"
+                                size={24}
+                                color={'#070651'}
+                            />
+                        </View>
+                        {hanldeInfoModal()}
                         <View style={style.container}>
                             <Pressable
                                 style={[
@@ -241,5 +286,25 @@ const style = StyleSheet.create({
     },
     selectedTextStyle: {
         color: '#070651',
+    },
+    info: {
+        position: 'absolute',
+        right: 0,
+        color: '#8B8DA5',
+        fontSize: 20,
+    },
+    infoModalContent: {
+        height: 200,
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#070651',
+        padding: 20,
+        fontSize: 15,
+        fontWeight: '400',
+        lineHeight: 25,
+    },
+    modalHeader: {
+        fontSize: 18,
+        padding: 20,
     },
 });
