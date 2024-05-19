@@ -1,14 +1,25 @@
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Bar } from 'react-native-progress';
 import Header from '../components/Header';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import BaseText from '../components/BaseText';
 import { useHealthBackground } from '../hooks';
 import { Controller } from 'react-hook-form';
 import { ButtonSmall } from '../components/Button';
 import { renderTabs } from '../utils/Tabs';
+import { useState } from 'react';
+import { ModalWrapper } from '../components/Modal';
+
+const textInfo = {
+    Overweight:
+        'Overweight and obesity are defined as abnormal or excessive fat accumulation that presents a risk to health. A body mass index (BMI) over 25 is considered overweight, and over 30 is obese. In 2019, an estimated 5 million noncommunicable disease (NCD) deaths were caused by higher-than-optimal BMI',
+    'High Blood Pressure':
+        'High blood pressure, also known as hypertension, is a condition where the force of the blood against the artery walls is consistently too high, which can lead to health problems like heart disease and stroke.',
+    'Smoke Cigarettes': 'Do you smoke cigarettes?',
+    Alcohol: 'Do you consume alcohol regularly?',
+};
 
 export const HealthBackground = ({ navigation, route }: any) => {
     const { params } = route;
@@ -16,8 +27,40 @@ export const HealthBackground = ({ navigation, route }: any) => {
         data: { control, errors, isValid, isSubmitting },
         operations: { handleSubmit, onPressSend },
     } = useHealthBackground(params);
+
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [modalContent, setModalContent] = useState('');
+
+    const infoModalContent = () => {
+        let dynamicKey = modalContent as keyof typeof textInfo;
+        return (
+            <View style={{ backgroundColor: 'white', height: 350, borderRadius: 20 }}>
+                {/* <BaseText style={style.infoModalHeading}>Sex at birth</BaseText> */}
+                <Header heading={modalContent} noIcon headerStyle={style.modalHeader} />
+                <View style={{ borderBottomColor: '#E6E6EE', borderBottomWidth: 1 }} />
+                <BaseText style={style.infoModalContent}>{textInfo[dynamicKey]}</BaseText>
+            </View>
+        );
+    };
+
+    const hanldeInfoModal = () => {
+        const param = {
+            isVisible: isModalVisible,
+            onClose: () => setModalVisible(false),
+            onSwipeComplete: () => setModalVisible(false),
+            children: infoModalContent(),
+        };
+        return ModalWrapper(param);
+    };
+
+    const handleIconPress = (key: string) => {
+        setModalContent(key);
+        setModalVisible(true);
+    };
+
     return (
         <SafeAreaView className="bg-white h-full">
+            {hanldeInfoModal()}
             <ScrollView className="container mx-auto px-4 pt-4 pl-6 pr-6">
                 <Spinner visible={false} overlayColor={'rgba(0, 0, 0, 0.40)'} />
                 <Animated.View entering={FadeInDown.delay(50).duration(500).springify()}>
@@ -32,7 +75,7 @@ export const HealthBackground = ({ navigation, route }: any) => {
                     />
                     <Header heading={'Finish sign up'} noIcon />
                     <View className="flex flex-row mt-6">
-                        <Icon name="heart-pulse" size={24} color={'#070651'} />
+                        <Icon name="pulse-outline" size={24} color={'#070651'} />
                         <BaseText className="text-base ml-3 font-bold text-[#070651]">
                             Health Background
                         </BaseText>
@@ -41,9 +84,18 @@ export const HealthBackground = ({ navigation, route }: any) => {
                         </BaseText>
                     </View>
                     <View>
-                        <BaseText className="leading-6 pt-8 text-md text-[#171B4B]">
-                            Are you overweight or obese?
-                        </BaseText>
+                        <View className="flex flex-row mt-6">
+                            <BaseText className="leading-6 text-md text-[#171B4B]">
+                                Are you overweight or obese?
+                            </BaseText>
+                            <Icon
+                                onPress={() => handleIconPress('Overweight')}
+                                style={style.info}
+                                name="information-circle-outline"
+                                size={24}
+                                color={'#070651'}
+                            />
+                        </View>
                         <Controller
                             control={control}
                             render={({ field: { onChange, value } }) => renderTabs(onChange, value)}
@@ -51,9 +103,18 @@ export const HealthBackground = ({ navigation, route }: any) => {
                         />
                     </View>
                     <View>
-                        <BaseText className="leading-6 pt-8 text-md text-[#171B4B]">
-                            Have you been diagnosed with high blood pressure?
-                        </BaseText>
+                        <View className="flex flex-row mt-6">
+                            <BaseText className="leading-6 text-md w-60 text-[#171B4B]">
+                                Have you been diagnosed with high blood pressure?
+                            </BaseText>
+                            <Icon
+                                onPress={() => handleIconPress('High Blood Pressure')}
+                                style={style.info}
+                                name="information-circle-outline"
+                                size={24}
+                                color={'#070651'}
+                            />
+                        </View>
                         <Controller
                             control={control}
                             render={({ field: { onChange, value } }) => renderTabs(onChange, value)}
@@ -61,9 +122,18 @@ export const HealthBackground = ({ navigation, route }: any) => {
                         />
                     </View>
                     <View>
-                        <BaseText className="leading-6 pt-8 text-md text-[#171B4B]">
-                            Do you smoke cigarettes?
-                        </BaseText>
+                        <View className="flex flex-row mt-6">
+                            <BaseText className="leading-6 text-md text-[#171B4B]">
+                                Do you smoke cigarettes?
+                            </BaseText>
+                            <Icon
+                                onPress={() => handleIconPress('Smoke Cigarettes')}
+                                style={style.info}
+                                name="information-circle-outline"
+                                size={24}
+                                color={'#070651'}
+                            />
+                        </View>
                         <Controller
                             control={control}
                             render={({ field: { onChange, value } }) => renderTabs(onChange, value)}
@@ -71,9 +141,18 @@ export const HealthBackground = ({ navigation, route }: any) => {
                         />
                     </View>
                     <View>
-                        <BaseText className="leading-6 pt-8 text-md text-[#171B4B]">
-                            Do you consume alcohol regularly?
-                        </BaseText>
+                        <View className="flex flex-row mt-6">
+                            <BaseText className="leading-6 text-md text-[#171B4B]">
+                                Do you consume alcohol regularly?
+                            </BaseText>
+                            <Icon
+                                onPress={() => handleIconPress('Alcohol')}
+                                style={style.info}
+                                name="information-circle-outline"
+                                size={24}
+                                color={'#070651'}
+                            />
+                        </View>
                         <Controller
                             control={control}
                             render={({ field: { onChange, value } }) => renderTabs(onChange, value)}
@@ -100,3 +179,26 @@ export const HealthBackground = ({ navigation, route }: any) => {
         </SafeAreaView>
     );
 };
+
+const style = StyleSheet.create({
+    info: {
+        position: 'absolute',
+        right: 0,
+        color: '#8B8DA5',
+        fontSize: 20,
+    },
+    infoModalContent: {
+        height: 200,
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#070651',
+        padding: 20,
+        fontSize: 15,
+        fontWeight: '400',
+        lineHeight: 25,
+    },
+    modalHeader: {
+        fontSize: 18,
+        padding: 20,
+    },
+});

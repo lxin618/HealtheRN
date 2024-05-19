@@ -8,17 +8,15 @@ import BaseText from '../components/BaseText';
 import { useAccountSetup } from '../hooks';
 import { Controller } from 'react-hook-form';
 import { Dropdown } from 'react-native-element-dropdown';
-import { Children, useRef, useState } from 'react';
-import Button, { ButtonSmall } from '../components/Button';
+import { useState } from 'react';
+import { ButtonSmall } from '../components/Button';
 import { ModalWrapper } from '../components/Modal';
-import { Modalize } from 'react-native-modalize';
 
 export const AccountSetup = ({ navigation }: any) => {
     const [gender, setGender] = useState('Male');
     const [isFocusDropdown, setIsFocusDropdown] = useState(false);
     const [isFocusInput, setIsFocusInput] = useState('');
     const [isModalVisible, setModalVisible] = useState(false);
-    const infoModalRef = useRef<Modalize>(null);
 
     const {
         data: { control, errors, isValid, isSubmitting },
@@ -57,11 +55,6 @@ export const AccountSetup = ({ navigation }: any) => {
             isVisible: isModalVisible,
             onClose: () => setModalVisible(false),
             onSwipeComplete: () => setModalVisible(false),
-            animationIn: 'slideInUp',
-            animationOut: 'slideOutDown',
-            avoidKeyboard: true,
-            swipeDirection: ['down', 'up', 'left', 'right'],
-            propagateSwipe: true,
             children: infoModalContent(),
         };
         return ModalWrapper(param);
