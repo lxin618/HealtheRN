@@ -99,7 +99,7 @@ export const HealthBackground = ({ navigation, route }: any) => {
                         <Controller
                             control={control}
                             render={({ field: { onChange, value } }) => renderTabs(onChange, value)}
-                            name="overWeight"
+                            name="overweight"
                         />
                     </View>
                     <View>

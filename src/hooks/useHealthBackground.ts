@@ -4,10 +4,11 @@ import * as yup from 'yup';
 import { Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { INDEX_VALUE_KEY_MAPINNG } from '../utils/Tabs';
 
 interface HealthBackgroundData {
     highBloodPressure?: number;
-    overWeight?: number;
+    overweight?: number;
     smoke?: number;
     alcohol?: number;
 }
@@ -16,7 +17,7 @@ export const useHealthBackground = (params: any) => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const schema = yup.object().shape({
         highBloodPressure: yup.number().notRequired().nonNullable(),
-        overWeight: yup.number().notRequired().nonNullable(),
+        overweight: yup.number().notRequired().nonNullable(),
         smoke: yup.number().notRequired().nonNullable(),
         alcohol: yup.number().notRequired().nonNullable(),
     });
@@ -31,53 +32,20 @@ export const useHealthBackground = (params: any) => {
         resolver: yupResolver(schema),
         defaultValues: {
             highBloodPressure: 2,
-            overWeight: 2,
+            overweight: 2,
             smoke: 2,
             alcohol: 2,
         },
     });
     const onPressSend = async (formData: HealthBackgroundData) => {
         Keyboard.dismiss();
+        // convert value of formdata from index to string value
+        for (const [key, value] of Object.entries(formData)) {
+            // let dynamicKey = key as keyof typeof formData;
+            (formData as any)[key] = INDEX_VALUE_KEY_MAPINNG[value];
+        }
         // navigate to the next screen with the data from the form
         navigation.navigate('HealthBackgroundStep2', { ...formData, ...params });
-        // try {
-        //   // const response = await axiosAuth(`${API_URL}/api/auth/register`, {
-        //   //   method: 'POST',
-        //   //   headers: {'Content-Type': 'application/json'},
-        //   //   body: JSON.stringify(formData),
-        //   // });
-        //   // adding gender and setups
-        //   const response = await axiosAuth.patch(
-        //     `${API_URL}/api/customer/profile`,
-        //     JSON.stringify(formData),
-        //     {
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Access-Control-Allow-Origin': '*'
-        //         },
-        //     });
-        //     console.log(response)
-        //   // // const res = await response.json();
-        //   // const statusCode = response.status;
-        //   // if (statusCode != 200) {
-        //   //   SnackBar.show(`😕 ${response}`, 'error');
-        //   //   return null;
-        //   // } else {
-        //   //   // const {accessToken, refreshToken} = response;
-        //   //   // save tokens in keychain
-        //   //   await Keychain.setGenericPassword('token', accessToken, {
-        //   //       service: authKeychainService,
-        //   //   })
-        //   //   await AsyncStorage.setItem('refreshToken', refreshToken);
-        //   //   navigation.navigate('AccountSetup');
-        //   // }
-        // } catch (error) {
-        //   SnackBar.show(
-        //     `😕 Something has gone wrong, please try again later`,
-        //     'error',
-        //   );
-        //   return null;
-        // }
     };
 
     return {

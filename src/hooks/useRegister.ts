@@ -87,10 +87,6 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, val
                 return null;
             } else {
                 const { accessToken, refreshToken, customer } = res;
-                // // save tokens in keychain
-                // await setGenericPassword('token', accessToken, {
-                //     service: authKeychainService,
-                // });
                 await AsyncStorage.setItem('refreshToken', refreshToken);
                 await AsyncStorage.setItem('accessToken', accessToken);
                 // set context

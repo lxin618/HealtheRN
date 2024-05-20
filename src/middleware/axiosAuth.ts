@@ -2,6 +2,8 @@ import axios from 'axios';
 import { API_URL } from '@env';
 import { getGenericPassword, authKeychainService, setGenericPassword } from '../services/Keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
 const axiosAuth = axios.create({
     baseURL: '/api',
@@ -10,15 +12,13 @@ const axiosAuth = axios.create({
 // Add a request interceptor
 axiosAuth.interceptors.request.use(
     async (config) => {
-        const token = await getGenericPassword({ service: authKeychainService });
+        const token = await AsyncStorage.getItem('accessToken');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
     },
     async (error) => {
-        //   const navigate = useNavigate();
-        //   navigate('/login')
         Promise.reject(error);
     }
 );
@@ -35,18 +35,15 @@ axiosAuth.interceptors.response.use(
             originalRequest._retry = true;
             try {
                 const refreshToken = await AsyncStorage.getItem('refreshToken');
-                const res = await axios.post(`${API_URL}/auth/tokenRefresh`, { refreshToken });
+                const res = await axios.post(`${API_URL}/api/auth/tokenRefresh`, { refreshToken });
                 const token = res.data.response;
-                await setGenericPassword('token', token, {
-                    service: authKeychainService,
-                });
-
+                await AsyncStorage.setItem('accessToken', token);
                 // Retry the original request with the new token
                 originalRequest.headers.Authorization = `Bearer ${token}`;
                 return axios(originalRequest);
             } catch (error) {
-                // const navigate = useNavigate();
-                // navigate('/login')
+                const navigation = useNavigation<NativeStackNavigationProp<any>>();
+                navigation.navigate('/login');
             }
         }
         return Promise.reject(error);

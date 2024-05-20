@@ -2,6 +2,8 @@ import React from 'react';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 
 export const INDEX_VALUE_MAPINNG = ['Yes', "Don't know", 'No'];
+// this has to match the previous array to convert the index to the bool to save in db
+export const INDEX_VALUE_KEY_MAPINNG = [true, null, false];
 
 export const renderTabs = (
     onChange: ((index: number) => void) | undefined,

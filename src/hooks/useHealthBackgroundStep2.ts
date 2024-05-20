@@ -4,6 +4,10 @@ import * as yup from 'yup';
 import { Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SnackBar } from '../utils/Toast';
+import axiosAuth from '../middleware/axiosAuth';
+import { API_URL } from '../../env/env.json';
+import { INDEX_VALUE_KEY_MAPINNG } from '../utils/Tabs';
 
 interface HealthBackgroundData {
     highCholesterol?: number;
@@ -35,47 +39,33 @@ export const useHealthBackgroundStep2 = (params: any) => {
     });
     const onPressSend = async (formData: HealthBackgroundData) => {
         Keyboard.dismiss();
-        console.log('asdasdasdasdad', { ...formData, ...params });
-        // navigate to the next screen with the data from the form
-        // navigation.navigate('HealthBackgroundStep2', { ...formData });
-        // try {
-        //   // const response = await axiosAuth(`${API_URL}/api/auth/register`, {
-        //   //   method: 'POST',
-        //   //   headers: {'Content-Type': 'application/json'},
-        //   //   body: JSON.stringify(formData),
-        //   // });
-        //   // adding gender and setups
-        //   const response = await axiosAuth.patch(
-        //     `${API_URL}/api/customer/profile`,
-        //     JSON.stringify(formData),
-        //     {
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Access-Control-Allow-Origin': '*'
-        //         },
-        //     });
-        //     console.log(response)
-        //   // // const res = await response.json();
-        //   // const statusCode = response.status;
-        //   // if (statusCode != 200) {
-        //   //   SnackBar.show(`😕 ${response}`, 'error');
-        //   //   return null;
-        //   // } else {
-        //   //   // const {accessToken, refreshToken} = response;
-        //   //   // save tokens in keychain
-        //   //   await Keychain.setGenericPassword('token', accessToken, {
-        //   //       service: authKeychainService,
-        //   //   })
-        //   //   await AsyncStorage.setItem('refreshToken', refreshToken);
-        //   //   navigation.navigate('AccountSetup');
-        //   // }
-        // } catch (error) {
-        //   SnackBar.show(
-        //     `😕 Something has gone wrong, please try again later`,
-        //     'error',
-        //   );
-        //   return null;
-        // }
+        // convert value of formdata from index to string value
+        for (const [key, value] of Object.entries(formData)) {
+            // let dynamicKey = key as keyof typeof formData;
+            (formData as any)[key] = INDEX_VALUE_KEY_MAPINNG[value];
+        }
+        try {
+            const response = await axiosAuth.patch(
+                `${API_URL}/api/customer/profile`,
+                JSON.stringify({ ...formData, ...params }),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                    },
+                }
+            );
+            const statusCode = response.status;
+            if (statusCode != 200) {
+                SnackBar.show(`😕 ${response}`, 'error');
+                return null;
+            } else {
+                navigation.navigate('Home');
+            }
+        } catch (error) {
+            SnackBar.show(`😕 Something has gone wrong, please try again later`, 'error');
+            return null;
+        }
     };
 
     return {
