@@ -89,7 +89,7 @@ export const Register = ({ navigation, route }: any) => {
                             {errors.firstName.message}
                         </BaseText>
                     )}
-                    <BaseText className="pt-2 pl-1 pb-2 text-[#171B4B]">Last Name*</BaseText>
+                    <BaseText className="pt-5 pl-1 pb-2 text-[#171B4B]">Last Name*</BaseText>
                     <Controller
                         control={control}
                         rules={{
@@ -113,7 +113,7 @@ export const Register = ({ navigation, route }: any) => {
                             {errors.lastName.message}
                         </BaseText>
                     )}
-                    <BaseText className="pt-2 pl-1 pb-2 text-[#171B4B]">Email Address*</BaseText>
+                    <BaseText className="pt-5 pl-1 pb-2 text-[#171B4B]">Email Address*</BaseText>
                     <Controller
                         control={control}
                         rules={{
@@ -137,7 +137,7 @@ export const Register = ({ navigation, route }: any) => {
                             {errors.email.message}
                         </BaseText>
                     )}
-                    <BaseText className="pt-2 pl-1 pb-2 text-[#171B4B]">Mobile Number*</BaseText>
+                    <BaseText className="pt-5 pl-1 pb-2 text-[#171B4B]">Mobile Number*</BaseText>
                     <Controller
                         control={control}
                         rules={{
@@ -168,7 +168,7 @@ export const Register = ({ navigation, route }: any) => {
                             {errors.phone.message}
                         </BaseText>
                     )}
-                    <BaseText className="pt-2 pl-1 pb-2 text-[#171B4B]">Birthday*</BaseText>
+                    <BaseText className="pt-5 pl-1 pb-2 text-[#171B4B]">Birthday*</BaseText>
                     <Controller
                         control={control}
                         rules={{
@@ -235,7 +235,7 @@ export const Register = ({ navigation, route }: any) => {
                             setOpenCalendar(false);
                         }}
                     />
-                    <BaseText className="pt-2 pl-1 pb-2 text-[#171B4B]">Password*</BaseText>
+                    <BaseText className="pt-5 pl-1 pb-2 text-[#171B4B]">Password*</BaseText>
                     <Controller
                         control={control}
                         rules={{

@@ -74,17 +74,17 @@ export const HealthBackground = ({ navigation, route }: any) => {
                         height={4}
                     />
                     <Header heading={'Finish sign up'} noIcon />
-                    <View className="flex flex-row mt-6">
+                    <View className="flex flex-row mt-8">
                         <Icon name="pulse-outline" size={24} color={'#070651'} />
                         <BaseText className="text-base ml-3 font-bold text-[#070651]">
                             Health Background
                         </BaseText>
-                        <BaseText className="absolute text-base right-5 ml-3 text-[#070651]">
+                        <BaseText className="absolute text-base right-0 ml-3 text-[#070651]">
                             (1/2)
                         </BaseText>
                     </View>
                     <View>
-                        <View className="flex flex-row mt-6">
+                        <View className="flex flex-row mt-8">
                             <BaseText className="leading-6 text-md text-[#171B4B]">
                                 Are you overweight or obese?
                             </BaseText>

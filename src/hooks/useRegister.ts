@@ -75,6 +75,10 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, val
     const onPressSend = async (formData: SignupFormData) => {
         Keyboard.dismiss();
         try {
+            // update the phone number to include the country code if not included
+            if (formData.phone.indexOf('+') == -1) {
+                formData.phone = '+' + phoneInput.current?.getCallingCode() + formData.phone;
+            }
             const response = await fetch(`${API_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

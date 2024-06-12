@@ -3,6 +3,7 @@ import BaseText from '../components/BaseText';
 import Button from '../components/Button';
 import { AuthContext } from '../context/authContext';
 import { useContext } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Home = () => {
     const { setAccessToken } = useContext(AuthContext);
@@ -12,7 +13,8 @@ export const Home = () => {
             <Button
                 style={{ margin: 'auto', marginBottom: 200 }}
                 buttonText="Signout"
-                onPress={() => {
+                onPress={async () => {
+                    await AsyncStorage.removeItem('accessToken');
                     setAccessToken('');
                 }}
             />

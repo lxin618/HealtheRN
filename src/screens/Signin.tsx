@@ -71,11 +71,13 @@ export const Signin = ({ navigation }: any) => {
             value = email;
         }
         const res = await signin(type, value, password);
-        if (res?.customer.accountSetUp) {
-            navigation.navigate('Home');
-        } else {
-            // navigate to the next screen
-            navigation.navigate('AccountSetup');
+        if (res) {
+            if (res?.customer.accountSetUp) {
+                navigation.navigate('Home');
+            } else {
+                // navigate to the next screen
+                navigation.navigate('AccountSetup');
+            }
         }
         setLoading(false);
     };

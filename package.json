@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "android": "react-native run-android",
-        "ios": "react-native run-ios --simulator='iPhone 13 Pro Max'",
+        "ios": "react-native run-ios --simulator='iPhone 14 Pro Max'",
         "lint": "eslint src .",
         "start": "CHOKIDAR_USEPOLLING=true react-native start --port 8081 --reset-cache",
         "test": "jest",

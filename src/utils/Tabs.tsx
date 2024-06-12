@@ -22,11 +22,10 @@ export const renderTabs = (
                 color: '#070651',
             }}
             activeTabStyle={{
-                borderColor: '#4D9FFF',
-                backgroundColor: '#F2F8FF',
+                backgroundColor: '#4D9FFF',
             }}
             activeTabTextStyle={{
-                color: '#0076FF',
+                color: '#fff',
             }}
             values={INDEX_VALUE_MAPINNG}
             selectedIndex={value}

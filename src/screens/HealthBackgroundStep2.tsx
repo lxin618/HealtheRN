@@ -67,24 +67,24 @@ export const HealthBackgroundStep2 = ({ navigation, route }: any) => {
                     <Bar
                         className="mb-8"
                         borderWidth={0}
-                        progress={0.75}
+                        progress={1}
                         width={null}
                         unfilledColor="#E6E6EE"
                         borderRadius={0}
                         height={4}
                     />
                     <Header heading={'Finish sign up'} noIcon />
-                    <View className="flex flex-row mt-6">
+                    <View className="flex flex-row mt-8">
                         <Icon name="pulse-outline" size={24} color={'#070651'} />
                         <BaseText className="text-base ml-3 font-bold text-[#070651]">
                             Health Background
                         </BaseText>
-                        <BaseText className="absolute text-base right-5 ml-3 text-[#070651]">
+                        <BaseText className="absolute text-base right-0 ml-3 text-[#070651]">
                             (2/2)
                         </BaseText>
                     </View>
                     <View>
-                        <View className="flex flex-row mt-6">
+                        <View className="flex flex-row mt-8">
                             <BaseText className="leading-6 text-md text-[#171B4B]">
                                 Do you have high cholesterol levels?
                             </BaseText>
