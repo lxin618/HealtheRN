@@ -87,7 +87,7 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, val
             const res = await response.json();
             const statusCode = response.status;
             if (statusCode != 200) {
-                SnackBar.show(`😕 ${res}`, 'error');
+                SnackBar.show(`😕 ${typeof res === 'object' ? 'Schema ' : res}` + 'error', 'error');
                 return null;
             } else {
                 const { accessToken, refreshToken, customer } = res;

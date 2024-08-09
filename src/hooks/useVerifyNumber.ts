@@ -31,6 +31,7 @@ export const useVerfiyNumber = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ value, type }),
             });
+            console.log(response);
             const res = await response.json();
             const statusCode = response.status;
             if (statusCode != 200) {
