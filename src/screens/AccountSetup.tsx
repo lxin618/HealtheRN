@@ -1,3 +1,4 @@
+import React from 'react';
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -42,9 +43,9 @@ export const AccountSetup = ({ navigation }: any) => {
                 <View style={{ borderBottomColor: '#E6E6EE', borderBottomWidth: 1 }} />
                 <BaseText style={style.infoModalContent}>
                     Sex at birth refers to sex assigned at birth. Sex at birth is typically assigned
-                    based on a person's reproductive system and other physical characteristics. Sex
-                    at birth may also be understood as the sex recorded at a person's birth (for
-                    example, what was recorded on their birth certificate)
+                    based on a person&apos;s reproductive system and other physical characteristics.
+                    Sex at birth may also be understood as the sex recorded at a person&apos;s birth
+                    (for example, what was recorded on their birth certificate)
                 </BaseText>
             </View>
         );
@@ -207,6 +208,16 @@ export const AccountSetup = ({ navigation }: any) => {
                         />
                         <BaseText className="absolute right-5 top-4">kg</BaseText>
                     </View>
+                    {errors.height && (
+                        <BaseText className="pt-2 pl-2 text-red-500">
+                            {errors.height.message}
+                        </BaseText>
+                    )}
+                    {errors.weight && (
+                        <BaseText className="pt-2 pl-2 text-red-500">
+                            {errors.weight.message}
+                        </BaseText>
+                    )}
                 </Animated.View>
             </ScrollView>
             <View className="flex-row justify-around">

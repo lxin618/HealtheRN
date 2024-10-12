@@ -15,8 +15,8 @@ export const useAccountSetup = (gender: string) => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const schema = yup.object().shape({
         ethnicity: yup.string().required('Ethnicity is required'),
-        height: yup.string(),
-        weight: yup.string(),
+        height: yup.number().typeError('Height must be a number'),
+        weight: yup.number().typeError('Weight must be a number'),
     });
 
     const {

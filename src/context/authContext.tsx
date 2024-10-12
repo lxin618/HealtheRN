@@ -31,8 +31,10 @@ export const AuthProvider = ({ children }: ContextProviderProps) => {
     const isLoggedin = async () => {
         try {
             setLoading(true);
-            let token = await AsyncStorage.getItem('accessToken');
+            const token = await AsyncStorage.getItem('accessToken');
+            const customer = await AsyncStorage.getItem('customer');
             setAccessToken(token);
+            setCustomer(customer);
             setLoading(false);
         } catch (error) {
             console.log(error);

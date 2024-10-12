@@ -1,12 +1,14 @@
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home, AccountSetup, HealthBackground, HealthBackgroundStep2 } from '../screens';
+import { BottomNav } from './bottomNav';
 
 const Stack = createNativeStackNavigator();
 
 export const AppStack = () => {
     return (
         <Stack.Navigator initialRouteName="Welcome">
-            <Stack.Screen name="Home" options={{ headerShown: false }} component={Home} />
+            <Stack.Screen name="Home" options={{ headerShown: false }} component={BottomNav} />
             <Stack.Screen
                 name="AccountSetup"
                 options={{ headerShown: false }}

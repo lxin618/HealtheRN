@@ -56,6 +56,7 @@ export const useSignin = () => {
                 const { accessToken, refreshToken, customer } = res;
                 await AsyncStorage.setItem('refreshToken', refreshToken);
                 await AsyncStorage.setItem('accessToken', accessToken);
+                await AsyncStorage.setItem('customer', accessToken);
                 // set context
                 setAccessToken(accessToken);
                 setCustomer(customer);

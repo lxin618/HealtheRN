@@ -10,3 +10,5 @@ export * from './Register';
 export * from './AccountSetup';
 export * from './HealthBackground';
 export * from './HealthBackgroundStep2';
+export * from './Settings';
+export * from './Profile';

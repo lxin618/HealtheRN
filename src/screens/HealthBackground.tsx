@@ -1,3 +1,4 @@
+import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -32,7 +33,7 @@ export const HealthBackground = ({ navigation, route }: any) => {
     const [modalContent, setModalContent] = useState('');
 
     const infoModalContent = () => {
-        let dynamicKey = modalContent as keyof typeof textInfo;
+        const dynamicKey = modalContent as keyof typeof textInfo;
         return (
             <View style={{ backgroundColor: 'white', height: 350, borderRadius: 20 }}>
                 {/* <BaseText style={style.infoModalHeading}>Sex at birth</BaseText> */}

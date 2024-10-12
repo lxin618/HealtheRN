@@ -8,7 +8,6 @@ import { API_URL } from '@env';
 import { SnackBar } from '../utils/Toast';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { authKeychainService, setGenericPassword } from '../services/Keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/authContext';
 interface SignupFormData {
@@ -93,8 +92,10 @@ export const useRegister = (phoneInput: RefObject<PhoneInput>, type: string, val
                 const { accessToken, refreshToken, customer } = res;
                 await AsyncStorage.setItem('refreshToken', refreshToken);
                 await AsyncStorage.setItem('accessToken', accessToken);
+                await AsyncStorage.setItem('customer', accessToken);
                 // set context
                 setAccessToken(accessToken);
+                console.log(customer);
                 setCustomer(customer);
                 if (customer.accountSetUp) {
                     navigation.navigate('Home');

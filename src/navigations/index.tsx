@@ -1,3 +1,4 @@
+import React from 'react';
 import { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Splash } from '../screens';
