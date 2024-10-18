@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeInLeft } from 'react-native-reanimated';
 import { Bar } from 'react-native-progress';
 import Header from '../components/Header';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -64,7 +64,7 @@ export const HealthBackground = ({ navigation, route }: any) => {
             {hanldeInfoModal()}
             <ScrollView className="container mx-auto px-4 pt-4 pl-6 pr-6">
                 <Spinner visible={false} overlayColor={'rgba(0, 0, 0, 0.40)'} />
-                <Animated.View entering={FadeInDown.delay(50).duration(500).springify()}>
+                <Animated.View entering={FadeInLeft.delay(50).duration(500).springify()}>
                     <Bar
                         className="mb-8"
                         borderWidth={0}

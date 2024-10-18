@@ -16,7 +16,7 @@ import { useContext } from 'react';
 import Header from '../components/Header';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import { useNews } from '../hooks';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeInLeft } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -28,7 +28,7 @@ interface News {
     };
 }
 
-export const Home = () => {
+export const Home = ({navigation}: any) => {
     const { customer, setAccessToken } = useContext(AuthContext);
     const newsBg = '../../assets/images/news-background.png';
     const [healthNews, setHealthNews] = useState<Array<News>>([]);
@@ -82,7 +82,7 @@ export const Home = () => {
             <ScrollView className="container mx-auto px-4 pt-4 pl-6 pr-6">
                 <Spinner visible={false} overlayColor={'rgba(0, 0, 0, 0.40)'} />
                 <Animated.View
-                    entering={FadeInDown.delay(50).duration(500).springify()}
+                    entering={FadeInLeft.delay(50).duration(500).springify()}
                     className=""
                 >
                     <View className="flex flex-row mt-2 mb-8">
@@ -103,8 +103,9 @@ export const Home = () => {
                         textStyle={{ fontWeight: '500' }}
                         style={{ marginTop: 15 }}
                         onPress={async () => {
-                            await AsyncStorage.removeItem('accessToken');
-                            setAccessToken('');
+                            // await AsyncStorage.removeItem('accessToken');
+                            // setAccessToken('');
+                            navigation.navigate('DiagnoseDisclaimer')
                         }}
                     />
                     <BaseText className="text-base mt-14 font-bold text-[#070651]">

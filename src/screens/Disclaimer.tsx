@@ -1,6 +1,5 @@
 import {
   SafeAreaView,
-  StyleSheet,
   ScrollView,
 } from 'react-native';
 import BaseText from '../components/BaseText';
@@ -38,16 +37,3 @@ export const Disclaimer = ({navigation}: any) => {
     </SafeAreaView>
   );
 };
-
-const style = StyleSheet.create({
-  btn: {
-    bottom: 0,
-    top: 15,
-    backgroundColor: '#0076FF',
-    borderRadius: 100,
-    paddingTop: 13,
-    paddingBottom: 15,
-    textAlign: 'center',
-    width: '100%',
-  },
-});

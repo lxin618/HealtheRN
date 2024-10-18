@@ -1,6 +1,7 @@
+import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeInLeft } from 'react-native-reanimated';
 import { Bar } from 'react-native-progress';
 import Header from '../components/Header';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -24,7 +25,7 @@ const textInfo = {
 export const HealthBackgroundStep2 = ({ navigation, route }: any) => {
     const { params } = route;
     const {
-        data: { control, errors, isValid, isSubmitting },
+        data: { control, isValid, isSubmitting },
         operations: { handleSubmit, onPressSend },
     } = useHealthBackgroundStep2(params);
 
@@ -32,7 +33,7 @@ export const HealthBackgroundStep2 = ({ navigation, route }: any) => {
     const [modalContent, setModalContent] = useState('');
 
     const infoModalContent = () => {
-        let dynamicKey = modalContent as keyof typeof textInfo;
+        const dynamicKey = modalContent as keyof typeof textInfo;
         return (
             <View style={{ backgroundColor: 'white', height: 350, borderRadius: 20 }}>
                 {/* <BaseText style={style.infoModalHeading}>Sex at birth</BaseText> */}
@@ -63,7 +64,7 @@ export const HealthBackgroundStep2 = ({ navigation, route }: any) => {
             {hanldeInfoModal()}
             <ScrollView className="container mx-auto px-4 pt-4 pl-6 pr-6">
                 <Spinner visible={false} overlayColor={'rgba(0, 0, 0, 0.40)'} />
-                <Animated.View entering={FadeInDown.delay(50).duration(500).springify()}>
+                <Animated.View entering={FadeInLeft.delay(50).duration(500).springify()}>
                     <Bar
                         className="mb-8"
                         borderWidth={0}

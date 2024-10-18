@@ -1,18 +1,15 @@
 import {
     SafeAreaView,
     ScrollView,
-    StyleProp,
     StyleSheet,
     TextInput,
     TouchableOpacity,
     View,
-    ViewStyle,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
 import BaseText from '../components/BaseText';
 import Button from '../components/Button';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useRef, useState } from 'react';
 import PhoneInput from 'react-native-phone-number-input';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -69,7 +66,7 @@ export const CreateAccount = ({ navigation }: any) => {
     };
 
     const onChangeEmail = (text: string) => {
-        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if (reg.test(text) === true) {
             setEmailValid(true);
             setNumberValidError('');

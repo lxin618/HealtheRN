@@ -12,3 +12,6 @@ export * from './HealthBackground';
 export * from './HealthBackgroundStep2';
 export * from './Settings';
 export * from './Profile';
+export * from './DiagnoseDisclaimer';
+export * from './TravelHistory';
+
