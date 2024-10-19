@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     SafeAreaView,
     ScrollView,
@@ -15,10 +16,11 @@ import PhoneInput from 'react-native-phone-number-input';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useVerfiyNumber } from '../hooks/useVerifyNumber';
 import { useGoogleAuth } from '../hooks/useGoogleAuth';
+import { NaviProps } from '../helper/naviType';
 
 type OTOPType = 'phone' | 'email';
 
-export const CreateAccount = ({ navigation }: any) => {
+export const CreateAccount = ({ navigation }: NaviProps) => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [phoneValid, setPhoneValid] = useState(false);
@@ -66,7 +68,7 @@ export const CreateAccount = ({ navigation }: any) => {
     };
 
     const onChangeEmail = (text: string) => {
-        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w\w+)+$/;
         if (reg.test(text) === true) {
             setEmailValid(true);
             setNumberValidError('');

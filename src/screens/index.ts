@@ -14,4 +14,3 @@ export * from './Settings';
 export * from './Profile';
 export * from './DiagnoseDisclaimer';
 export * from './TravelHistory';
-

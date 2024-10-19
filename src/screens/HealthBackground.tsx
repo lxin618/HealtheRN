@@ -12,6 +12,7 @@ import { ButtonSmall } from '../components/Button';
 import { renderTabs } from '../utils/Tabs';
 import { useState } from 'react';
 import { ModalWrapper } from '../components/Modal';
+import { NaviProps } from '../helper/naviType';
 
 const textInfo = {
     Overweight:
@@ -21,11 +22,11 @@ const textInfo = {
     'Smoke Cigarettes': 'Do you smoke cigarettes?',
     Alcohol: 'Do you consume alcohol regularly?',
 };
-
-export const HealthBackground = ({ navigation, route }: any) => {
-    const { params } = route;
+``;
+export const HealthBackground = ({ navigation, route }: NaviProps) => {
+    const { params } = route ?? {};
     const {
-        data: { control, errors, isValid, isSubmitting },
+        data: { control, isValid, isSubmitting },
         operations: { handleSubmit, onPressSend },
     } = useHealthBackground(params);
 

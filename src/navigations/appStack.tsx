@@ -1,11 +1,11 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { 
-    AccountSetup, 
+import {
+    AccountSetup,
     HealthBackground,
-    HealthBackgroundStep2, 
+    HealthBackgroundStep2,
     DiagnoseDisclaimer,
-    TravelHistory
+    TravelHistory,
 } from '../screens';
 import { BottomNav } from './bottomNav';
 

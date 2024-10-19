@@ -12,6 +12,7 @@ import { ButtonSmall } from '../components/Button';
 import { renderTabs } from '../utils/Tabs';
 import { useState } from 'react';
 import { ModalWrapper } from '../components/Modal';
+import { NaviProps } from '../helper/naviType';
 
 const textInfo = {
     'High Cholesterol':
@@ -22,8 +23,8 @@ const textInfo = {
         'Chronic history refers to the long-term persistence of a disease or condition, characterized by its ongoing, often progressive nature. This term is typically used in medical contexts to describe conditions that last for an extended period',
 };
 
-export const HealthBackgroundStep2 = ({ navigation, route }: any) => {
-    const { params } = route;
+export const HealthBackgroundStep2 = ({ navigation, route }: NaviProps) => {
+    const { params } = route || {};
     const {
         data: { control, isValid, isSubmitting },
         operations: { handleSubmit, onPressSend },

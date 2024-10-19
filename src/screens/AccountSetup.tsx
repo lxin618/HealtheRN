@@ -12,8 +12,9 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { useState } from 'react';
 import { ButtonSmall } from '../components/Button';
 import { ModalWrapper } from '../components/Modal';
+import { NaviProps } from '../helper/naviType';
 
-export const AccountSetup = ({ navigation }: any) => {
+export const AccountSetup = ({ navigation }: NaviProps) => {
     const [gender, setGender] = useState('Male');
     const [isFocusDropdown, setIsFocusDropdown] = useState(false);
     const [isFocusInput, setIsFocusInput] = useState('');

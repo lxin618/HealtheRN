@@ -18,7 +18,7 @@ import Spinner from 'react-native-loading-spinner-overlay/lib';
 import { useNews } from '../hooks';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NaviProps } from '../helper/naviType';
 
 interface News {
     thread: {
@@ -28,7 +28,7 @@ interface News {
     };
 }
 
-export const Home = ({navigation}: any) => {
+export const Home = ({ navigation }: NaviProps) => {
     const { customer, setAccessToken } = useContext(AuthContext);
     const newsBg = '../../assets/images/news-background.png';
     const [healthNews, setHealthNews] = useState<Array<News>>([]);
@@ -105,7 +105,7 @@ export const Home = ({navigation}: any) => {
                         onPress={async () => {
                             // await AsyncStorage.removeItem('accessToken');
                             // setAccessToken('');
-                            navigation.navigate('DiagnoseDisclaimer')
+                            navigation.navigate('DiagnoseDisclaimer');
                         }}
                     />
                     <BaseText className="text-base mt-14 font-bold text-[#070651]">
@@ -123,7 +123,7 @@ export const Home = ({navigation}: any) => {
                             })}
                         </View>
                     </ScrollView>
-                    {healthNews && (
+                    {healthNews && Array.isArray(healthNews) && (
                         <>
                             <BaseText className="text-base mt-10 font-bold text-[#070651]">
                                 Newsfeed
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     },
     newsTitleWrapper: {
         position: 'absolute',
-        top: 20,
+        top: 0,
         left: 0,
         right: 0,
         bottom: 0,
